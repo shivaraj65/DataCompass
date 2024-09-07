@@ -20,11 +20,11 @@
         }
         .ant-card-meta-detail {
           .ant-card-meta-title {
-            color: appTheme.$primary-400;
+            color: appTheme.$primary-400;            
           }
           .ant-card-meta-description {
-            color: appTheme.$dark-500;
-            font-size: 0.85rem;
+            color: appTheme.$mix-dark-400;
+            font-size: 0.85rem;            
           }
         }
       }
@@ -42,7 +42,7 @@
   [data-theme="dark"] {
     .ant-card {
       color: appTheme.$light-100 !important;
-      background-color: appTheme.$mix-dark-100;
+      background-color: appTheme.$mix-dark-200;
       border: 1.5px solid appTheme.$mix-dark-200;
 
       .ant-card-meta {

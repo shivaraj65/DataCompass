@@ -18,7 +18,7 @@
       }
 
       tr:nth-child(odd) {
-        background-color: appTheme.$light-200;
+        background-color: appTheme.$mix-light-600;
       }
     }
   }
@@ -36,11 +36,11 @@
       }
 
       tr:nth-child(even) {
-        background-color: appTheme.$dark-100;
+        background-color: appTheme.$mix-dark-100;
       }
 
       tr:nth-child(odd) {
-        background-color: appTheme.$dark-200;
+        background-color: appTheme.$mix-dark-200;
       }
     }
   }

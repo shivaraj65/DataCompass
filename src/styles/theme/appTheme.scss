@@ -1,5 +1,6 @@
 /**
  * light and dark theme config file
+ * https://colorffy.com/dark-theme-generator -- use the link to generate colors
  */
 
 /** PRIMARY COLORS */
@@ -150,7 +151,7 @@ $mix-light-600: #dee9df;
   [data-theme="dark"] {
     //----------- background-color styles -----------
     .bg-primary {
-      background-color: $dark-100 !important;
+      background-color: $mix-dark-100 !important;
     }
     .bg-secondary {
       background-color: $dark-300 !important;

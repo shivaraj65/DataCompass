@@ -11,13 +11,13 @@ const theme: ThemeConfig = {
   },
   components: {
     Menu: {
-      darkItemBg: "#0e1012",
-      itemBg: "#ececec",
+      darkItemBg: "#2a3b2c",
+      itemBg: "#dee9df",
       itemSelectedBg: "#f9f9f9",
     },
     Layout: {
-      siderBg: "#0e1012",
-      lightSiderBg: "#ececec",
+      siderBg: "#2a3b2c",
+      lightSiderBg: "#dee9df",
     },
     Input:{
       activeBg:"#096a2e1f",
