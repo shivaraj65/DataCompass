@@ -14,9 +14,9 @@ interface app {
 
 const initialState: app = {
   appInfo:{
-    name:"HEXBANE 🐦‍🔥",
-    logo:"https://picsum.photos/150/50",
-    description:"Hexbane is a development accelerator module to spin up a application in a very quick duration of time.",
+    name:"DataCompass",
+    logo:"logo/png/logo-no-background.png",
+    description:"Your ultimate guide in navigating and making sense of complex data landscapes with precision and ease.",
   },
   userInfo: null,
   theme: "light",

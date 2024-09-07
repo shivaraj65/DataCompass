@@ -3,12 +3,12 @@
  */
 
 /** PRIMARY COLORS */
-$primary-100: #673ab7;
-$primary-200: #7a4fbf;
-$primary-300: #8c64c8;
-$primary-400: #9d79d0;
-$primary-500: #ae8fd8;
-$primary-600: #bfa5e0;
+$primary-100: #096a2e;
+$primary-200: #317a43;
+$primary-300: #4d8a59;
+$primary-400: #679a6f;
+$primary-500: #80ab86;
+$primary-600: #99bb9d;
 
 /** light theme colors */
 $light-100: #f9f9f9;
@@ -27,20 +27,29 @@ $dark-500: #9b9b9b;
 $dark-600: #b4b4b4;
 
 // primary - dark mixed theme colors:
-$mix-dark-100: #30273c;
-$mix-dark-200: #443b4f;
-$mix-dark-300: #595163;
-$mix-dark-400: #6f6878;
-$mix-dark-500: #857f8d;
-$mix-dark-600: #9d97a3;
+$mix-dark-100: #142617;
+$mix-dark-200: #2a3b2c;
+$mix-dark-300: #415043;
+$mix-dark-400: #5a675b;
+$mix-dark-500: #737e74;
+$mix-dark-600: #8d978e;
 
 //primary - light mixed theme colors
-$mix-light-100: #d0bde6;
-$mix-light-200: #d5c4e9;
-$mix-light-300: #dbcbec;
-$mix-light-400: #e0d3ee;
-$mix-light-500: #e5daf1;
-$mix-light-600: #eae1f4;
+$mix-light-100: #b5cdb8;
+$mix-light-200: #bdd2c0;
+$mix-light-300: #c5d8c7;
+$mix-light-400: #cddecf;
+$mix-light-500: #d6e3d7;
+$mix-light-600: #dee9df;
+
+
+// --rt-color-white: #fff;
+//     --rt-color-dark: #222;
+//     --rt-color-success: #8dc572;
+// mongo green: color: #00ed64;
+//     --rt-color-error: #be6464;
+//     --rt-color-warning: #f0ad4e;
+//     --rt-color-info: #337ab7;
 
 * {
   .primary {

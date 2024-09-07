@@ -5,12 +5,16 @@
 
     .logoContainer{
       margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
       justify-content: center;
+      .logo{
+        width: 90%;
+      }
       .title{
         padding:0.5rem;
         font-weight: 900;
         font-size: 1.5rem;
-
       }
     }
   }

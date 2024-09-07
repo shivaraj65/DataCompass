@@ -12,7 +12,7 @@
   justify-content: center;
 
   .formContainerV1 {
-    max-height: 60%;
+    max-height: 75%;
     width: 30%;
     padding: 1.3rem;
     display: flex;
@@ -26,7 +26,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-
+      margin-bottom: 0.5rem;
+      .logo{
+        width: 50%;        
+      }
       .title {
         font-size: 1.5rem;
         font-weight: 900;
@@ -43,6 +46,7 @@
         .label {
           margin: 0 0 0.4rem;
           font-weight: 500;
+          color: appTheme.$primary-100;
         }
       }
       .signupButton {

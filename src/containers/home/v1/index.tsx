@@ -66,9 +66,9 @@ const Home = () => {
       >
         {/* <div className="demo-logo-vertical" /> */}
         <div className={styles.logoContainer}>
-          {/* {appInfo && <img src={appInfo?.logo} />} */}
+          {appInfo && <img src={appInfo?.logo} className={styles.logo} />}
 
-          <h2 className={styles.title}>{appInfo && appInfo?.name}</h2>
+          {/* <h2 className={styles.title}>{appInfo && appInfo?.name}</h2> */}
         </div>
 
         <Menu

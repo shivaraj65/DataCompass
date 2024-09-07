@@ -18,7 +18,7 @@ export default function signup() {
       <div className={`${styles.signupContainerV1} bg-primary primaryText`}>
         <div className={styles.formContainerV1}>
           <div className={styles.titleContainer}>
-            {appInfo && <p className={styles.title}>{appInfo?.name}</p>}
+              {appInfo && <img src={appInfo?.logo} className={styles.logo} />}            
           </div>
 
           <div className={styles.passwordSignupContV1}>
