@@ -1,0 +1,20 @@
+.homeContainer {
+  height: 100svh !important;
+  .siderContainer{
+    padding: 1rem 0.5rem;
+
+    .logoContainer{
+      margin-bottom: 0.8rem;
+      justify-content: center;
+      .title{
+        padding:0.5rem;
+        font-weight: 900;
+        font-size: 1.5rem;
+
+      }
+    }
+  }
+  .rightContainer {
+    padding: 1.3rem;
+  }
+}

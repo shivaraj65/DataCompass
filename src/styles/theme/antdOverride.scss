@@ -1,0 +1,79 @@
+@use "appTheme";
+
+* {
+  [data-theme="light"] {
+    .ant-card {
+      color: appTheme.$dark-100 !important;
+      background-color: appTheme.$mix-light-600;
+      border: 1.5px solid appTheme.$mix-light-400;
+
+      .ant-card-meta {
+        .ant-card-meta-avatar {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          .anticon {
+            font-size: 1.8rem;
+            color: appTheme.$primary-200;
+          }
+        }
+        .ant-card-meta-detail {
+          .ant-card-meta-title {
+            color: appTheme.$primary-400;
+          }
+          .ant-card-meta-description {
+            color: appTheme.$dark-500;
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+    .ant-breadcrumb {
+      .ant-breadcrumb-link {
+        color: appTheme.$dark-500 !important;
+      }
+      .ant-breadcrumb-separator {
+        color: appTheme.$primary-100 !important;
+      }
+    }
+  }
+
+  [data-theme="dark"] {
+    .ant-card {
+      color: appTheme.$light-100 !important;
+      background-color: appTheme.$mix-dark-100;
+      border: 1.5px solid appTheme.$mix-dark-200;
+
+      .ant-card-meta {
+        .ant-card-meta-avatar {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          .anticon {
+            font-size: 1.8rem;
+            color: appTheme.$primary-200;
+          }
+        }
+        .ant-card-meta-detail {
+          .ant-card-meta-title {
+            color: appTheme.$primary-400;
+          }
+          .ant-card-meta-description {
+            color: appTheme.$light-600;
+            font-size: 0.85rem;
+          }
+        }
+      }
+    }
+    .ant-breadcrumb {
+      .ant-breadcrumb-link {
+        color: appTheme.$light-500 !important;
+      }
+      .ant-breadcrumb-separator {
+        color: appTheme.$primary-100 !important;
+      }
+    }
+  }
+}

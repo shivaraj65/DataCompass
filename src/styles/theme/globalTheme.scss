@@ -1,0 +1,47 @@
+@use "appTheme";
+
+* {
+  [data-theme="light"] {
+    table {
+      width: 100%;
+      border-collapse: collapse;      
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        margin: 0.4rem 0;
+      }
+
+      tr:nth-child(even) {
+        background-color: appTheme.$light-100;
+      }
+
+      tr:nth-child(odd) {
+        background-color: appTheme.$light-200;
+      }
+    }
+  }
+
+  [data-theme="dark"] {
+    table {
+      width: 100%;
+      border-collapse: collapse;      
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        margin: 0.4rem 0;
+      }
+
+      tr:nth-child(even) {
+        background-color: appTheme.$dark-100;
+      }
+
+      tr:nth-child(odd) {
+        background-color: appTheme.$dark-200;
+      }
+    }
+  }
+}

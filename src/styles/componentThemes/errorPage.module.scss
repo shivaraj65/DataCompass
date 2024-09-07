@@ -1,0 +1,54 @@
+.errorContainer {
+  height: 100%;
+  width: 100%;
+  padding: 2rem;
+  overflow: hidden;
+  .errorTitle {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+  .errorRow {
+    height: 80%;
+    padding: 4rem 2rem;
+    .errorCol {
+      .imageContainer {
+        display: flex;
+        align-items: center;
+        .image {
+          width: 80%;
+          height: auto;
+          margin: auto;
+        }
+      }
+      .displayContent {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 1rem;
+        .displayContentInfo {
+          font-family: "Josefin Sans", sans-serif;
+          font-size: 2.4rem;
+          margin-bottom: 1.5rem;
+        }
+        .errorCard {
+          width: 100%;
+          // color: #ff4c4c;          
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+            rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+          .displayContentText {
+            width: 100%;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 2rem;
+            overflow-wrap: break-word;
+            white-space: normal;
+            overflow-x: auto;
+          }
+        }
+      }
+    }
+  }
+}

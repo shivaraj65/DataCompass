@@ -1,0 +1,55 @@
+@use "../../theme/appTheme.scss";
+
+.signupContainerV1 {
+  height: 100svh;
+  width: 100vw;
+  background-image: url("../../../assets/images/login/loginV5.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .formContainerV1 {
+    max-height: 60%;
+    width: 30%;
+    padding: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px 0 #3b3b3b57;
+    backdrop-filter: blur(5px);
+    border-radius: 1rem;
+    background-color: #a0a0a018;
+
+    .titleContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .title {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: appTheme.$primary-100;
+      }
+    }
+
+    .passwordSignupContV1 {
+      display: block;
+
+      .componentWrapper {
+        margin: 0rem 0 1rem;
+
+        .label {
+          margin: 0 0 0.4rem;
+          font-weight: 500;
+        }
+      }
+      .signupButton {
+        font-weight: 700;
+        margin-top: 0.6rem;
+        letter-spacing: 0.3rem;
+      }
+    }
+  }
+}
