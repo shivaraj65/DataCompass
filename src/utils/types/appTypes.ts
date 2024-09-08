@@ -15,3 +15,9 @@ export interface userInfotypes {
     secret?:string;
     totpStatus:boolean;  
 };
+
+export interface signupTypes {    
+    message:string | null;
+    loading:boolean;
+    error:string | null;
+}

@@ -15,10 +15,10 @@ import Bro2 from "@/assets/illustrations/bro-2.png";
 import Bro3 from "@/assets/illustrations/bro-5.png";
 import HE from "@/assets/logo/hackearearth.jpg";
 import ATMECS from "@/assets/logo/atmecs.jpg";
-import Features1 from "@/assets/illustrations/features-1.png"
-import Features2 from "@/assets/illustrations/features-2.png"
-import Features3 from "@/assets/illustrations/features-3.png"
-import Features4 from "@/assets/illustrations/features-4.png"
+import Features1 from "@/assets/illustrations/features-1.png";
+import Features2 from "@/assets/illustrations/features-2.png";
+import Features3 from "@/assets/illustrations/features-3.png";
+import Features4 from "@/assets/illustrations/features-4.png";
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -39,11 +39,20 @@ const Landing = () => {
               <img src={appInfo?.logo} className={styles.logo} />
               <p className={styles.appDescription}>{appInfo.description}</p>
               <div className={styles.buttonContainer}>
-                <Button className={styles.buttons} type={"primary"}>
-                  {" "}
+                <Button
+                  className={styles.buttons}
+                  type={"primary"}
+                  onClick={() => router.push("/login")}
+                >
                   Login
                 </Button>
-                <Button className={styles.buttons}> Signup</Button>
+                <Button
+                  className={styles.buttons}
+                  onClick={() => router.push("/signup")}
+                >
+                  {" "}
+                  Signup
+                </Button>
               </div>
             </>
           )}
@@ -253,7 +262,12 @@ const Landing = () => {
             </div>
 
             <div className={styles.buttonContainer}>
-              <Button type="primary" ghost className={styles.buttons}>
+              <Button
+                type="primary"
+                ghost
+                className={styles.buttons}
+                onClick={() => router.push("/signup")}
+              >
                 Signup
               </Button>
             </div>
