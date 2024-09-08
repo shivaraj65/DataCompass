@@ -1,0 +1,286 @@
+@use "../../theme/appTheme.scss";
+
+.landingContainerV1 {
+  width: 100vw;
+  height: 100%;
+  overflow: auto;
+  background-color: #fff !important;
+
+  .header {
+    height: 85vh;
+    width: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 80%,
+        #ffffff 100%
+      ),
+      url("../../../assets/la-1.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 3rem;
+    .headerContainer {
+      .logo {
+        width: 18rem;
+      }
+      .appTitle {
+        font-family: "Righteous", sans-serif;
+        color: appTheme.$primary-100;
+        font-weight: 600;
+        font-size: 3rem;
+        letter-spacing: 0.2rem;
+      }
+      .appDescription {
+        background-color: rgba(211, 211, 211, 0.064);
+        border-radius: 24px;
+        padding: 8px;
+        font-family: "Josefin Sans", sans-serif;
+        color: appTheme.$dark-400;
+        font-weight: 600;
+        font-size: 2rem;
+        margin: 2.5rem 0;
+        line-height: 2.2rem;
+      }
+      .buttonContainer {
+        margin-top: 1rem;
+        display: flex;
+        gap: 1rem;
+        .buttons {
+          font-family: "Righteous", sans-serif;
+          border-radius: 24px;
+          padding: 1.3rem 1.5rem;
+          min-width: 170px;
+          font-weight: 500;
+          font-size: 1.2rem;
+          letter-spacing: 3px;
+        }
+      }
+    }
+
+    .heroImage {
+      padding: 1rem;
+      top: 50%;
+      width: 40% !important;
+      height: auto !important;
+      background-color: rgba(201, 231, 216, 0.304);
+      border-radius: 24px;
+    }
+  }
+
+  .body {
+    margin: 0;
+    section {
+      text-align: center;
+      padding: 3rem 0;
+      //   margin: 2rem;
+      .title {
+        font-family: "Righteous", sans-serif;
+        font-size: 2rem;
+        font-weight: 500;
+        color: appTheme.$primary-200;
+        margin-bottom: 2rem;
+      }
+    }
+    .section1 {
+      padding: 2rem 0 3rem;
+      .sectionCards {
+        padding: 0 3rem;
+        .colStyle {
+          padding: 15px;
+          text-align: center;
+        }
+      }
+    }
+    .section2 {
+      padding: 3rem;
+
+      .description {
+        font-family: "Josefin Sans", sans-serif;
+        color: appTheme.$dark-400;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin: 1rem 0;
+        line-height: 2rem;
+      }
+
+      .logoContainer {
+        display: flex;
+        padding: 1rem;
+        .logoImage {
+          padding: 2rem 4rem;
+        }
+      }
+      .hexbaneContainer {
+        margin-top: 3rem;
+        background-color: rgba(201, 231, 216, 0.301);
+        border-radius: 24px;
+        padding: 1rem 1.3rem;
+        .title2 {
+          font-family: "Righteous", sans-serif;
+          font-size: 2rem;
+          font-weight: 500;
+          color: appTheme.$primary-600;
+          margin-bottom: 1rem;
+        }
+
+        .description2 {
+          font-family: "Josefin Sans", sans-serif;
+          color: appTheme.$dark-500;
+          font-weight: 500;
+          font-size: 1.2rem;
+          margin: 1rem 0;
+          line-height: 1.6rem;
+        }
+        .description3 {
+          font-family: "Josefin Sans", sans-serif;
+          color: appTheme.$dark-400;
+          font-weight: 600;
+          font-size: 1.2rem;
+          margin: 1rem 0;
+          line-height: 2rem;
+        }
+      }
+    }
+    .section3 {
+      padding: 3rem;
+      .mindsContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .authorCard {
+          width: 60%;
+          display: flex;
+
+          .broImage {
+            width: 250px !important;
+          }
+          .Content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(201, 231, 216, 0.301);
+            border-radius: 24px;
+            padding: 1rem 1.3rem;
+            margin: 1rem;
+            .title {
+              font-family: "Righteous", sans-serif;
+              font-size: 1.5rem;
+              font-weight: 500;
+              color: appTheme.$primary-200;
+            }
+            .description {
+              font-family: "Josefin Sans", sans-serif;
+              color: appTheme.$dark-400;
+              font-weight: 600;
+              font-size: 1.2rem;
+              line-height: 2.2rem;
+            }
+          }
+        }
+      }
+    }
+    .section4 {
+      padding: 3rem;
+      .cta {
+        display: flex;
+        padding: 2rem;
+        text-align: left;
+        font-family: "Josefin Sans", sans-serif;
+        color: appTheme.$dark-500;
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin: 2.5rem 0;
+        line-height: 2.2rem;
+
+        .text {
+          width: 60%;
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          .badge {
+            padding: 0.4rem 1rem 0.1rem;
+            margin: 0;
+            background-color: appTheme.$primary-200;
+            color: #fff;
+            border-radius: 24px;
+          }
+        }
+        .buttonContainer {
+          width: 40%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 2rem;
+          .buttons {
+            font-family: "Righteous", sans-serif;
+            border-radius: 24px;
+            padding: 1.3rem 1.5rem;
+            min-width: 230px;
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    text-align: center;
+    padding: 5rem 1.3rem;
+    background-color: appTheme.$mix-dark-100;
+
+    .contactsContainer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 70%;
+      margin: auto;
+      padding: 2rem 0;
+      font-size: 1rem;
+      color: appTheme.$mix-dark-600;
+
+      .appLogo {
+        width: 11rem;
+      }
+      .appTitle {
+        font-family: "Righteous", sans-serif;
+        letter-spacing: 0.2rem;
+        font-size: 1.7rem;
+        font-weight: 400;
+        color: appTheme.$mix-light-100;
+      }
+
+      .mediaIconsContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3rem;
+        .mediaIcons {
+          font-size: 2rem;
+          color: appTheme.$mix-light-100;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .madeIn {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: appTheme.$mix-dark-600;
+      margin-bottom: 2rem;
+    }
+    .copyRText {
+      font-size: 1rem;
+      font-weight: 600;
+      color: appTheme.$mix-dark-400;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 /**
  * this slice will contain application level data.
- * -> user infos
+ * -> user infos and app info
  */
 
 import { userInfotypes, appInfotypes } from "@/utils/types/appTypes";

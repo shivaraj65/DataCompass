@@ -1,4 +1,10 @@
 //component leve configs for selection of components from appConfig
+
+type LandingConfigKeys = {
+  landingV1: () => Promise<typeof import("../containers/landing/v1")>;
+  landingV2: () => Promise<typeof import("../containers/landing/v2")>;
+};
+
 type LoginConfigKeys = {
   loginV1: () => Promise<typeof import("../containers/login/v1")>;
   loginV2: () => Promise<typeof import("../containers/login/v2")>;
@@ -12,6 +18,11 @@ type signupConfigKeys = {
 type homeConfigKeys = {
   homeV1: () => Promise<typeof import("../containers/home/v1")>;
   homeV2: () => Promise<typeof import("../containers/home/v2")>;
+};
+
+export const landingConfig: LandingConfigKeys = {
+  landingV1: () => import("../containers/landing/v1"),
+  landingV2: () => import("../containers/landing/v2"),
 };
 
 export const loginConfig: LoginConfigKeys = {

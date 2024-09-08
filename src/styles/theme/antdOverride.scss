@@ -20,11 +20,11 @@
         }
         .ant-card-meta-detail {
           .ant-card-meta-title {
-            color: appTheme.$primary-400;            
+            color: appTheme.$primary-400;
           }
           .ant-card-meta-description {
             color: appTheme.$mix-dark-400;
-            font-size: 0.85rem;            
+            font-size: 0.85rem;
           }
         }
       }
@@ -73,6 +73,38 @@
       }
       .ant-breadcrumb-separator {
         color: appTheme.$primary-100 !important;
+      }
+    }
+  }
+}
+
+//overrrideing for landing page only
+.landingPageV1 {
+  .ant-card {
+    color: appTheme.$dark-100 !important;
+    background-color: appTheme.$mix-light-600;
+    border: 1.5px solid appTheme.$mix-light-400;
+
+    .ant-card-meta {
+      .ant-card-meta-avatar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        .anticon {
+          font-size: 1.8rem;
+          color: appTheme.$primary-200;
+        }
+      }
+      .ant-card-meta-detail {
+        .ant-card-meta-title {
+          color: appTheme.$primary-100;
+          font-size: 1.3rem;
+        }
+        .ant-card-meta-description {
+          color: appTheme.$mix-dark-400;
+          font-size: 1rem;
+        }
       }
     }
   }

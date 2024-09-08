@@ -1,11 +1,50 @@
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
+import config from "@/config.js/appConfig";
+import FullscreenLoader from "@/components/ui/fullscreenLoader";
+import ErrorPage from "@/components/ui/errorPage";
+import { landingConfig } from "@/config.js/compConfig";
 
-const inter = Inter({ subsets: ["latin"] });
+const Home: React.FC = () => {
+  const [Component, setComponent] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<Error | null>(null);
 
-export default function Home() {
+  useEffect(() => {
+    // Dynamically import the component based on the configuration
+    const loadComponent = async () => {
+      setLoading(true);
+      try {
+        // Ensure the config returns a promise resolving to a module with a default export
+        const { default: LoadedComponent } = await landingConfig[
+          config.landing
+        ]();
+        setComponent(() => LoadedComponent);
+      } catch (err) {
+        setError(err as Error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadComponent();
+  }, []);
+
+  // Handle the different states: loading, error, and successfully loaded
+  if (loading) {
+    return <FullscreenLoader />;
+  }
+
+  if (error) {
+    // return <div>Error loading component: {error.message}</div>;
+    return (
+      <ErrorPage
+        message={error?.message}
+        prefixText="I have bad news for you"
+        title={error?.name}
+      />
+    );
+  }
+
   return (
     <>
       <Head>
@@ -14,9 +53,13 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main  className={`${styles.main} ${inter.className}` } >
-        landing route
+      <main style={{height:"100%", width:"100%"}}>
+        <React.Fragment>
+          <Component />
+        </React.Fragment>
       </main>
     </>
   );
-}
+};
+
+export default Home;
