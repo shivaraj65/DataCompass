@@ -7,14 +7,16 @@ import {
   userInfotypes,
   appInfotypes,
   signupTypes,
+  loginTypes,
 } from "@/utils/types/appTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { signupApi } from "../asyncApi/users";
+import { loginApi, signupApi } from "../asyncApi/users";
 
 interface app {
   appInfo: appInfotypes | null;
   userInfo: userInfotypes | null;
   signup: signupTypes;
+  login: loginTypes;
   theme: string;
 }
 
@@ -27,6 +29,11 @@ const initialState: app = {
   },
   userInfo: null,
   signup: {
+    message: null,
+    loading: false,
+    error: null,
+  },
+  login: {
     message: null,
     loading: false,
     error: null,
@@ -51,6 +58,13 @@ const appSlice = createSlice({
         error: null,
       };
     },
+    resetLogin(state) {
+      state.login = {
+        message: null,
+        loading: false,
+        error: null,
+      };
+    },
   },
 
   extraReducers: (builder) => {
@@ -67,9 +81,24 @@ const appSlice = createSlice({
       .addCase(signupApi.rejected, (state, action) => {
         state.signup.loading = false;
         state.signup.error = action.payload || "An error occurred";
+      })
+      .addCase(loginApi.pending, (state) => {
+        state.login.loading = true;
+        state.login.error = null;
+      })
+      .addCase(loginApi.fulfilled, (state, action) => {
+        state.login.loading = false;
+        state.login.error = action.payload.error;
+        state.login.message = action.payload.status;
+        state.userInfo = action.payload.data[0];
+      })
+      .addCase(loginApi.rejected, (state, action) => {
+        state.login.loading = false;
+        state.login.error = action.payload || "An error occurred";
       });
   },
 });
 
-export const { updateUserInfo, updateTheme, resetSignup } = appSlice.actions;
+export const { updateUserInfo, updateTheme, resetSignup, resetLogin } =
+  appSlice.actions;
 export default appSlice.reducer;

@@ -13,6 +13,17 @@ export interface SignupResponse {
   error: string;
 }
 
+export interface LoginData {  
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  data: any;
+  status: string;
+  error: string;
+}
+
 export interface ApiError {
   message: string;
 }
@@ -22,15 +33,27 @@ export const signupApi = createAsyncThunk<
   SignupData,
   { rejectValue: string }
 >("api/signup", async (signupData, { rejectWithValue }) => {
-  try {    
+  try {
     const response: AxiosResponse<SignupResponse> =
-      await axios.post<SignupResponse>(
-        `/api/signup`,
-        signupData
-      );      
+      await axios.post<SignupResponse>(`/api/signup`, signupData);
     return response.data;
   } catch (error) {
-    const err = error as AxiosError<ApiError>;    
+    const err = error as AxiosError<ApiError>;
+    return rejectWithValue(err.response?.data?.message || "An error occurred");
+  }
+});
+
+export const loginApi = createAsyncThunk<
+  LoginResponse,
+  LoginData,
+  { rejectValue: string }
+>("api/login", async (loginData, { rejectWithValue }) => {
+  try {
+    const response: AxiosResponse<SignupResponse> =
+      await axios.post<SignupResponse>(`/api/login`, loginData);
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<ApiError>;
     return rejectWithValue(err.response?.data?.message || "An error occurred");
   }
 });

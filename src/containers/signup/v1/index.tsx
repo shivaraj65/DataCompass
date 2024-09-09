@@ -38,9 +38,11 @@ export default function signup() {
       });
       dispatch(resetSignup());
       router.push("/");
-    }
-    dispatch(resetSignup());
-    cleanUp();
+    }else{
+      dispatch(resetSignup());
+      cleanUp();
+    }    
+    
   }, [signup.message]);
 
   const onSubmit = async () => {

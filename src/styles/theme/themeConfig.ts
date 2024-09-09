@@ -11,12 +11,12 @@ const theme: ThemeConfig = {
   },
   components: {
     Menu: {
-      darkItemBg: "#2a3b2c",
+      darkItemBg: "#090909",
       itemBg: "#dee9df",
       itemSelectedBg: "#f9f9f9",
     },
     Layout: {
-      siderBg: "#2a3b2c",
+      siderBg: "#090909",
       lightSiderBg: "#dee9df",
     },
     Input:{

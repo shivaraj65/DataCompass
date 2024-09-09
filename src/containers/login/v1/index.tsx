@@ -1,45 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Row } from "antd";
+import { Button, Col, message, Row } from "antd";
 import styles from "@/styles/containerThemes/login/v1.module.scss";
 import { GoogleLogin } from "@react-oauth/google";
 import JWTDecoder from "../googleHelper/jwtDecoder";
-import type { RootState } from "../../../redux/store";
+import type { AppDispatch, RootState } from "../../../redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserInfo } from "@/redux/reducers/appSlice";
+import { resetLogin, updateUserInfo } from "@/redux/reducers/appSlice";
 import { Input } from "antd";
 import { useRouter } from "next/router";
 import { CloseOutlined } from "@ant-design/icons";
+import { loginApi } from "@/redux/asyncApi/users";
 
 const Login = () => {
   const router = useRouter();
 
+  //google login state
   const [user, setUser] = useState<any>(null);
+
+  //normal login state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const userInfo = useSelector((state: RootState) => state.app.userInfo);
   const appInfo = useSelector((state: RootState) => state.app.appInfo);
-  
+  const login = useSelector((state: RootState) => state.app.login);
 
   const setGoogUserInfo = async () => {
     const userinfo = await JWTDecoder(user);
     console.log("userinfo", userinfo);
-
-    //store the data into the database and set the state 101
-    dispatch(
-      updateUserInfo({
-        id: "id",
-        name: "string",
-        picture: "String",
-        email: "string",
-        email_verified: false,
-        password: "string",
-        authOrigin: "string",
-        secret: "string",
-        totpStatus: false,
-      })
-    );
   };
 
   useEffect(() => {
@@ -48,11 +37,53 @@ const Login = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    cleanUp();
+    dispatch(resetLogin());
+  }, []);
+
+  useEffect(() => {
+    if (login.error) message.error(login.error);
+    cleanUp();
+    dispatch(resetLogin());
+  }, [login.error]);
+
+  useEffect(() => {
+    if (login.message === "success") {
+      // message.open({
+      //   type: "success",
+      //   content: login.message,
+      // });
+      dispatch(resetLogin());
+      router.push("/home");
+    } else {
+      dispatch(resetLogin());
+      cleanUp();
+    }
+  }, [login.message]);
+
+  const onsubmit = () => {
+    if (email.length > 0 && password.length > 0) {
+      dispatch(
+        loginApi({
+          email: email,
+          password: password,
+        })
+      );
+    }
+  };
+
+  const cleanUp = () => {
+    setUser(null);
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <div className={`${styles.loginContainerV1} bg-primary primaryText`}>
-       <div className={styles.closeFloater} onClick={() => router.push("/")}>
-          <CloseOutlined />
-        </div>
+      <div className={styles.closeFloater} onClick={() => router.push("/")}>
+        <CloseOutlined />
+      </div>
       <div className={styles.formContainerV1}>
         {/* <GoogleLogin
           onSuccess={async (credentialResponse) => {
@@ -65,7 +96,7 @@ const Login = () => {
         />
         <hr /> */}
         <div className={styles.passwordLoginContV1}>
-        <div className={styles.titleContainer}>
+          <div className={styles.titleContainer}>
             {appInfo && <img src={appInfo?.logo} className={styles.logo} />}
           </div>
           <div className={styles.componentWrapper}>
@@ -75,6 +106,7 @@ const Login = () => {
               size="large"
               placeholder=""
               variant="filled"
+              disabled={login.loading}
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -87,6 +119,7 @@ const Login = () => {
               size="large"
               placeholder=""
               variant="filled"
+              disabled={login.loading}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
@@ -96,33 +129,35 @@ const Login = () => {
             type="primary"
             block
             size={"large"}
+            disabled={login.loading}
             className={styles.loginButton}
+            onClick={onsubmit}
           >
             LOGIN
           </Button>
         </div>
         <div className={styles.footer}>
-            <p className={styles.footerText}>
-              Don't have an Account{" "}
-              <span
-                className={styles.linkText}
-                onClick={() => {
-                  router.push("/signup");
-                }}
-              >
-                SIGNUP
-              </span>
-              &nbsp; / &nbsp;
-              <span
-                className={styles.linkText2}
-                onClick={() => {
-                  router.push("/");
-                }}
-              >
-                BACK
-              </span>
-            </p>
-          </div>
+          <p className={styles.footerText}>
+            Don't have an Account{" "}
+            <span
+              className={styles.linkText}
+              onClick={() => {
+                router.push("/signup");
+              }}
+            >
+              SIGNUP
+            </span>
+            &nbsp; / &nbsp;
+            <span
+              className={styles.linkText2}
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              BACK
+            </span>
+          </p>
+        </div>
       </div>
       {/* <ThemeToggle /> */}
     </div>
@@ -130,3 +165,4 @@ const Login = () => {
 };
 
 export default Login;
+
