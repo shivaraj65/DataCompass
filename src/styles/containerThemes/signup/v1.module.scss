@@ -3,13 +3,24 @@
 .signupContainerV1 {
   height: 100svh;
   width: 100vw;
-  background-image: url("../../../assets/images/login/loginV5.jpg");
+  background-image: url("../../../assets/images/login/loginV17.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
+  
+  .closeFloater{
+    display: block;
+    z-index: 10;
+    position: absolute;
+    top:15px;
+    right:15px;
+    font-size: 1.8rem;    
+    color: #c55757;
+    cursor: pointer;
+  }
 
   .formContainerV1 {
     max-height: 75%;
@@ -54,6 +65,27 @@
         margin-top: 0.6rem;
         letter-spacing: 0.3rem;
       }
+    }
+    .footer{
+      text-align: center;
+      margin-top: 1rem;      
+      .footerText{
+        color: appTheme.$dark-500;
+        font-weight: 500;
+        .linkText{
+          text-decoration: underline;
+          cursor: pointer;
+          color: #5201e8a0;
+          font-weight: 700;
+        }
+        .linkText2{
+          text-decoration: underline;
+          cursor: pointer;
+          color: appTheme.$dark-500;
+          font-weight: 700;
+        }
+      }
+
     }
   }
 }

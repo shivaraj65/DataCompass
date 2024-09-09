@@ -7,14 +7,20 @@ import type { RootState } from "../../../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserInfo } from "@/redux/reducers/appSlice";
 import { Input } from "antd";
+import { useRouter } from "next/router";
+import { CloseOutlined } from "@ant-design/icons";
 
 const Login = () => {
+  const router = useRouter();
+
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const userInfo = useSelector((state: RootState) => state.app.userInfo);
   const dispatch = useDispatch();
+  const userInfo = useSelector((state: RootState) => state.app.userInfo);
+  const appInfo = useSelector((state: RootState) => state.app.appInfo);
+  
 
   const setGoogUserInfo = async () => {
     const userinfo = await JWTDecoder(user);
@@ -44,8 +50,11 @@ const Login = () => {
 
   return (
     <div className={`${styles.loginContainerV1} bg-primary primaryText`}>
+       <div className={styles.closeFloater} onClick={() => router.push("/")}>
+          <CloseOutlined />
+        </div>
       <div className={styles.formContainerV1}>
-        <GoogleLogin
+        {/* <GoogleLogin
           onSuccess={async (credentialResponse) => {
             console.log(credentialResponse);
             setUser(credentialResponse.credential);
@@ -54,8 +63,11 @@ const Login = () => {
             console.log("Login Failed");
           }}
         />
-        <hr />
+        <hr /> */}
         <div className={styles.passwordLoginContV1}>
+        <div className={styles.titleContainer}>
+            {appInfo && <img src={appInfo?.logo} className={styles.logo} />}
+          </div>
           <div className={styles.componentWrapper}>
             <p className={`${styles.label}`}>Email</p>
             <Input
@@ -89,6 +101,28 @@ const Login = () => {
             LOGIN
           </Button>
         </div>
+        <div className={styles.footer}>
+            <p className={styles.footerText}>
+              Don't have an Account{" "}
+              <span
+                className={styles.linkText}
+                onClick={() => {
+                  router.push("/signup");
+                }}
+              >
+                SIGNUP
+              </span>
+              &nbsp; / &nbsp;
+              <span
+                className={styles.linkText2}
+                onClick={() => {
+                  router.push("/");
+                }}
+              >
+                BACK
+              </span>
+            </p>
+          </div>
       </div>
       {/* <ThemeToggle /> */}
     </div>
