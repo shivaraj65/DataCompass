@@ -2,6 +2,11 @@ import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss"
 import { chatItemType } from "@/utils/types/chatTypes";
 import { Avatar } from "antd";
 import React from "react";
+import {
+  CopyOutlined,
+  RedoOutlined,
+  ExperimentOutlined,
+} from "@ant-design/icons";
 
 interface props {
   currentChat: chatItemType[] | null;
@@ -20,18 +25,36 @@ const ChatBox = ({ currentChat = [] }: props) => {
                   <div className={styles.userMessageContainer}>
                     <Avatar className={styles.avatarIcon}>S</Avatar>
 
-                    {item.content && typeof item.content === "string" && (
-                      <p className={styles.question}>{item.content}</p>
-                    )}
+                    <div className={styles.flexEnd}>
+                      {item.content && typeof item.content === "string" && (
+                        <React.Fragment>
+                          <p className={styles.question}>{item.content}</p>
+                          <div className={styles.iconsCont}>
+                            <CopyOutlined className={styles.icon} />
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </div>
                   </div>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   <div className={styles.assistantMessageContainer}>
                     <Avatar className={styles.avatarIcon}>A</Avatar>
-                    {item.content && typeof item.content === "string" && (
-                      <p className={styles.answer}>{item.content}</p>
-                    )}
+                    <div className={styles.flexStart}>
+                      {item.content && typeof item.content === "string" && (
+                        <React.Fragment>
+                          <p className={styles.answer}>{item.content}</p>
+                          <div className={styles.iconsCont}>
+                            {currentChat.length - 1 === index && (
+                              <RedoOutlined className={styles.icon} />
+                            )}
+                            <CopyOutlined className={styles.icon} />
+                            <ExperimentOutlined className={styles.icon} />
+                          </div>
+                        </React.Fragment>
+                      )}
+                    </div>
                   </div>
                   <div style={{ flex: 1 }}></div>
                 </React.Fragment>

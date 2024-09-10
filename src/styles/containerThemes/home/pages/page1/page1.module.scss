@@ -164,7 +164,7 @@
         .chatHeader {
           width: 100%;
           .tagContainer {
-            width: 100%;
+            width: 100%;            
           }
         }
         .ChatContainer {
@@ -186,14 +186,33 @@
               color: appTheme.$dark-300;
               min-width: 2rem;
             }
-            .question {
-              background-color: appTheme.$light-200;
-              color: appTheme.$dark-300;
-              padding: 0.5rem 1.2rem;
-              border-top-left-radius: 12px;
-              border-bottom-left-radius: 12px;
-              border-bottom-right-radius: 12px;
-              margin-top: 0.7rem;
+            .flexEnd {
+              width: 100%;
+              .question {
+                background-color: appTheme.$light-200;
+                color: appTheme.$dark-300;
+                padding: 0.5rem 1.2rem;
+                border-top-left-radius: 12px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                margin-top: 0.7rem;
+              }
+              .iconsCont {
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                gap: 12px;
+                margin: 0.5rem 0 0 0;
+                padding-right: 0.5rem;
+                font-size: 1.2rem;
+                color: appTheme.$light-400;
+                .icon{
+                  &:hover{
+                    color: appTheme.$light-600;
+                    cursor: pointer;
+                  }
+                }
+              }
             }
           }
           .assistantMessageContainer {
@@ -208,16 +227,34 @@
               background-color: appTheme.$mix-light-600;
               color: appTheme.$mix-dark-300;
               min-width: 2rem;
-              
             }
-            .answer {
-              background-color: appTheme.$mix-light-600;
-              color: appTheme.$mix-dark-300;
-              padding: 0.5rem 1.2rem;
-              border-top-right-radius: 12px;
-              border-bottom-left-radius: 12px;
-              border-bottom-right-radius: 12px;
-              margin-top: 0.7rem;
+            .flexStart {
+              width: 100%;
+              .answer {
+                background-color: appTheme.$mix-light-600;
+                color: appTheme.$mix-dark-300;
+                padding: 0.5rem 1.2rem;
+                border-top-right-radius: 12px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                margin-top: 0.7rem;
+              }
+              .iconsCont {
+                width: 100%;
+                display: flex;
+                justify-content: flex-start;
+                gap: 12px;
+                margin: 0.5rem 0 0 0;
+                padding-left: 0.5rem;
+                font-size: 1.2rem;
+                color: appTheme.$mix-light-200;
+                .icon{
+                  &:hover{
+                    color: appTheme.$primary-300;
+                    cursor: pointer;
+                  }
+                }
+              }
             }
           }
         }
@@ -288,7 +325,7 @@
       }
       .searchContainerChatPage {
         width: 80%;
-        background-color: appTheme.$mix-light-600;
+        background-color: appTheme.$mix-dark-400;
         padding: 0.5rem 0.5rem;
         border-radius: 8px;
         .searchTitle {
@@ -349,11 +386,102 @@
         height: 100%;
         width: 100%;
         overflow-y: auto;
+        .chatHeader {
+          width: 100%;
+          .tagContainer {
+            width: 100%;
+          }
+        }
         .ChatContainer {
           flex: 1;
-          width: 100%;
-          padding: 0.5rem;
+          width: 75%;
+          padding: 0.5rem 0.5rem 2rem;
           overflow-y: auto;
+          .userMessageContainer {
+            max-width: 80%;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: flex-start;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            .avatarIcon {
+              background-color: appTheme.$dark-400;
+              color: appTheme.$light-300;
+              min-width: 2rem;
+            }
+            .flexEnd {
+              width: 100%;
+              .question {
+                background-color: appTheme.$dark-300;
+                color: appTheme.$light-300;
+                padding: 0.5rem 1.2rem;
+                border-top-left-radius: 12px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                margin-top: 0.7rem;
+              }
+              .iconsCont {
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+                gap: 12px;
+                margin: 0.5rem 0 0 0;
+                padding-right: 0.5rem;
+                font-size: 1.2rem;
+                color: appTheme.$dark-400;
+                .icon{
+                  &:hover{
+                    color: appTheme.$light-400;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
+          .assistantMessageContainer {
+            max-width: 80%;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            .avatarIcon {
+              background-color: appTheme.$mix-dark-100;
+              color: appTheme.$mix-light-300;
+              min-width: 2rem;
+            }
+            .flexStart {
+              width: 100%;
+              .answer {
+                background-color: appTheme.$mix-dark-100;
+                color: appTheme.$light-100;
+                padding: 0.5rem 1.2rem;
+                border-top-right-radius: 12px;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                margin-top: 0.7rem;
+              }
+              .iconsCont {
+                width: 100%;
+                display: flex;
+                justify-content: flex-start;
+                gap: 12px;
+                margin: 0.5rem 0 0 0;
+                padding-left: 0.5rem;
+                font-size: 1.2rem;
+                color: appTheme.$mix-dark-300;
+                .icon{
+                  &:hover{
+                    color: appTheme.$primary-300;
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
