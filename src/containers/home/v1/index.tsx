@@ -48,6 +48,8 @@ const Home = () => {
   const theme = useSelector((state: RootState) => state.app.theme);
   const appInfo = useSelector((state: RootState) => state.app.appInfo);
   const userInfo = useSelector((state: RootState) => state.app.userInfo);
+  const chat = useSelector((state: RootState) => state.chat);
+
   const dispatch = useDispatch();
 
   return (
@@ -87,7 +89,7 @@ const Home = () => {
         {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
 
         <div style={{ width: "100%", height: "100%" }}>
-          {selectedMenu.key === "page1" && <Page1 />}
+          {selectedMenu.key === "page1" && <Page1 chat={chat}/>}
           {selectedMenu.key === "page4" && <Settings userInfo={userInfo} />}
         </div>
 

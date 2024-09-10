@@ -4,7 +4,7 @@
   [data-theme="light"] {
     table {
       width: 100%;
-      border-collapse: collapse;      
+      border-collapse: collapse;
 
       th,
       td {
@@ -21,12 +21,43 @@
         background-color: appTheme.$mix-light-600;
       }
     }
+
+    /* Global Scrollbar Styling */
+    * {
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: rgba(200, 200, 200, 0.4) transparent; /* Light, semi-transparent thumb for Firefox */
+    }
+
+    *::-webkit-scrollbar {
+      width: 2px; /* Ultra-slim scrollbar width */
+      height: 2px; /* Ultra-slim scrollbar height */
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #dcdcdc80;
+      border-radius: 24px;
+      border: none;
+      background-clip: padding-box;
+      transition: background-color 0.2s ease-in-out; 
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: #dcdcdcb3;
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: transparent;
+    }
   }
 
   [data-theme="dark"] {
     table {
       width: 100%;
-      border-collapse: collapse;      
+      border-collapse: collapse;
 
       th,
       td {
@@ -42,6 +73,37 @@
       tr:nth-child(odd) {
         background-color: appTheme.$dark-300;
       }
+    }
+
+    /* Global Scrollbar Styling */
+    * {
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: rgba(200, 200, 200, 0.4) transparent; /* Light, semi-transparent thumb for Firefox */
+    }
+
+    *::-webkit-scrollbar {
+      width: 2px; /* Ultra-slim scrollbar width */
+      height: 2px; /* Ultra-slim scrollbar height */
+    }
+
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #dcdcdc80;
+      border-radius: 24px;
+      border: none;
+      background-clip: padding-box;
+      transition: background-color 0.2s ease-in-out; 
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: #dcdcdcb3;
+    }
+
+    *::-webkit-scrollbar-corner {
+      background: transparent;
     }
   }
 }

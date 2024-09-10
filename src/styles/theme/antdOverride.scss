@@ -37,6 +37,33 @@
         color: appTheme.$primary-100 !important;
       }
     }
+    .ant-select {
+      .ant-select-selector {
+        color: appTheme.$primary-400 !important;
+        background-color: appTheme.$mix-light-600 !important;
+        .ant-select-selection-item {
+          font-weight: 600 !important;
+        }
+      }
+    }
+    .ant-radio-group {
+      .ant-radio-button-wrapper {
+        font-weight: 500;
+        color: appTheme.$primary-500 !important;
+        background-color: appTheme.$mix-light-500 !important;
+        border: 1px dashed appTheme.$mix-light-100 !important;
+      }
+      .ant-radio-button-wrapper:not(:first-child)::before {
+        background-color: appTheme.$mix-light-100 !important;
+        background-color: transparent;
+      }
+      .ant-radio-button-wrapper-checked {
+        font-weight: 600;
+        color: appTheme.$primary-300 !important;
+        border: 1px dashed appTheme.$primary-300 !important;
+        background-color: appTheme.$mix-light-400 !important;
+      }
+    }
   }
 
   [data-theme="dark"] {
@@ -75,6 +102,51 @@
         color: appTheme.$primary-100 !important;
       }
     }
+    .ant-select {
+      .ant-select-selector {
+        color: appTheme.$primary-500 !important;
+        background-color: appTheme.$mix-dark-300 !important;
+        border: 1px dashed appTheme.$primary-500 !important;
+        // border: none;
+        .ant-select-selection-item {
+          font-weight: 600 !important;
+        }
+      }
+    }
+    .ant-radio-group {
+      .ant-radio-button-wrapper {
+        font-weight: 500;
+        color: appTheme.$primary-500 !important;
+        background-color: appTheme.$mix-dark-100 !important;
+        border: 1px dashed appTheme.$mix-dark-200 !important;
+      }
+      .ant-radio-button-wrapper:not(:first-child)::before {
+        background-color: appTheme.$mix-dark-100 !important;
+      }
+      .ant-radio-button-wrapper-checked {
+        font-weight: 600;
+        color: appTheme.$primary-300 !important;
+        border: 1px dashed appTheme.$primary-300 !important;
+        background-color: appTheme.$mix-dark-300 !important;
+      }
+    }
+  }
+}
+
+//overrides for the popups that falls overside the data-theme wrapper.
+.ant-select-dropdown {
+  background-color: appTheme.$light-200 !important;
+  .ant-select-item-option {
+    background-color: appTheme.$mix-light-600 !important;
+    color: appTheme.$mix-dark-600 !important;
+    font-weight: 600 !important;
+    margin: 1.5px 0;
+  }
+  .ant-select-item-option-active {
+    background-color: appTheme.$mix-light-300 !important;
+    font-weight: 700 !important;
+    color: appTheme.$mix-dark-400 !important;
+    margin: 1.5px 0;
   }
 }
 

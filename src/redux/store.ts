@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import appReducer from './reducers/appSlice'
+import chatReducer from './reducers/chatSlice'
 
 export const store = configureStore({
   reducer: {
     app: appReducer,    
+    chat: chatReducer
   }
 })
 

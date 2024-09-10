@@ -1,5 +1,361 @@
-.page1Container{
-    height: 100%;
-    width: 100%;
-    border: 1px solid grey;
+@use "../../../../theme//appTheme.scss";
+
+* {
+  [data-theme="light"] {
+    .page1Container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .searchContainer {
+        width: 70%;
+        background-color: appTheme.$mix-light-600;
+        padding: 2rem 1.5rem;
+        border-radius: 8px;
+        .searchTitle {
+          text-align: center;
+          font-family: "Josefin Sans", sans-serif;
+          font-weight: 700;
+          font-size: 1.8rem;
+          margin-bottom: 0.7rem;
+          color: appTheme.$primary-500;
+        }
+        .topControlsContainer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 0 0 0.7rem;
+          .chatTypeSelection {
+          }
+          .prompt {
+            color: appTheme.$primary-400;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-light-600;
+          }
+        }
+
+        .flexContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .sendButton {
+            font-size: 1.3rem !important;
+            color: appTheme.$primary-400;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-light-600;
+          }
+        }
+        .flexContainer2 {
+          margin-top: 0.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .wrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 6px;
+            .fileAttach {
+              color: appTheme.$primary-400;
+              font-weight: 600;
+              padding: 0.4rem;
+              background-color: appTheme.$mix-light-600;
+            }
+            .modelSelection {
+            }
+          }
+
+          .morebutton {
+            color: appTheme.$primary-100;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-light-600;
+            .arrow {
+              color: appTheme.$primary-400;
+            }
+          }
+        }
+      }
+
+      .searchContainerChatPage {
+        width: 80%;
+        background-color: appTheme.$mix-light-600;
+        padding: 0.5rem 0.5rem;
+        border-radius: 8px;
+        .searchTitle {
+          text-align: center;
+          font-family: "Josefin Sans", sans-serif;
+          font-weight: 700;
+          font-size: 1.8rem;
+          margin-bottom: 0.7rem;
+          color: appTheme.$primary-500;
+        }
+        .topControlsContainer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 0 0 0.7rem;
+          .chatTypeSelection {
+          }
+          .prompt {
+            color: appTheme.$primary-400;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-light-600;
+          }
+        }
+
+        .flexContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .sendButton {
+            font-size: 1.3rem !important;
+            color: appTheme.$primary-400;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-light-600;
+          }
+        }
+        .flexContainer2 {
+          margin-top: 0.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .wrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 6px;
+            .fileAttach {
+              color: appTheme.$primary-400;
+              font-weight: 600;
+              padding: 0.4rem;
+              background-color: appTheme.$mix-light-600;
+            }
+            .modelSelection {
+            }
+          }
+
+          .morebutton {
+            color: appTheme.$primary-100;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-light-600;
+            .arrow {
+              color: appTheme.$primary-400;
+            }
+          }
+        }
+      }
+
+      .chatPage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+        .chatHeader {
+          width: 100%;
+          .tagContainer {
+            width: 100%;
+          }
+        }
+        .ChatContainer {
+          flex: 1;
+          width: 75%;
+          padding: 0.5rem 0.5rem 2rem;
+          overflow-y: auto;
+          .userMessageContainer {
+            max-width: 80%;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: flex-start;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            .avatarIcon {
+              background-color: appTheme.$light-200;
+              color: appTheme.$dark-300;
+              min-width: 2rem;
+            }
+            .question {
+              background-color: appTheme.$light-200;
+              color: appTheme.$dark-300;
+              padding: 0.5rem 1.2rem;
+              border-top-left-radius: 12px;
+              border-bottom-left-radius: 12px;
+              border-bottom-right-radius: 12px;
+              margin-top: 0.7rem;
+            }
+          }
+          .assistantMessageContainer {
+            max-width: 80%;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            .avatarIcon {
+              background-color: appTheme.$mix-light-600;
+              color: appTheme.$mix-dark-300;
+              min-width: 2rem;
+              
+            }
+            .answer {
+              background-color: appTheme.$mix-light-600;
+              color: appTheme.$mix-dark-300;
+              padding: 0.5rem 1.2rem;
+              border-top-right-radius: 12px;
+              border-bottom-left-radius: 12px;
+              border-bottom-right-radius: 12px;
+              margin-top: 0.7rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  [data-theme="dark"] {
+    .page1Container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .searchContainer {
+        width: 70%;
+        background-color: appTheme.$mix-dark-100;
+        padding: 2rem 1.5rem;
+        border-radius: 8px;
+        .searchTitle {
+          text-align: center;
+          font-family: "Josefin Sans", sans-serif;
+          font-weight: 700;
+          font-size: 1.8rem;
+          margin-bottom: 0.7rem;
+          color: appTheme.$primary-500;
+        }
+        .chatTypeSelection {
+          margin: 0 0 0.7rem;
+        }
+        .flexContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .flexContainer2 {
+          margin-top: 0.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .wrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 6px;
+            .fileAttach {
+              color: appTheme.$primary-400;
+              font-weight: 600;
+              padding: 0.4rem;
+              background-color: appTheme.$mix-dark-300;
+              border: 1px dashed appTheme.$primary-400;
+            }
+            .modelSelection {
+            }
+          }
+
+          .morebutton {
+            color: appTheme.$light-100;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-dark-300;
+            border: 1px dashed appTheme.$primary-400;
+            .arrow {
+              color: appTheme.$dark-600;
+            }
+          }
+        }
+      }
+      .searchContainerChatPage {
+        width: 80%;
+        background-color: appTheme.$mix-light-600;
+        padding: 0.5rem 0.5rem;
+        border-radius: 8px;
+        .searchTitle {
+          text-align: center;
+          font-family: "Josefin Sans", sans-serif;
+          font-weight: 700;
+          font-size: 1.8rem;
+          margin-bottom: 0.7rem;
+          color: appTheme.$primary-500;
+        }
+        .chatTypeSelection {
+          margin: 0 0 0.7rem;
+        }
+        .flexContainer {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .flexContainer2 {
+          margin-top: 0.5rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .wrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 6px;
+            .fileAttach {
+              color: appTheme.$primary-400;
+              font-weight: 600;
+              padding: 0.4rem;
+              background-color: appTheme.$mix-dark-300;
+              border: 1px dashed appTheme.$primary-400;
+            }
+            .modelSelection {
+            }
+          }
+
+          .morebutton {
+            color: appTheme.$light-100;
+            font-weight: 600;
+            padding: 0.4rem;
+            background-color: appTheme.$mix-dark-300;
+            border: 1px dashed appTheme.$primary-400;
+            .arrow {
+              color: appTheme.$dark-600;
+            }
+          }
+        }
+      }
+
+      .chatPage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        width: 100%;
+        overflow-y: auto;
+        .ChatContainer {
+          flex: 1;
+          width: 100%;
+          padding: 0.5rem;
+          overflow-y: auto;
+        }
+      }
+    }
+  }
 }
