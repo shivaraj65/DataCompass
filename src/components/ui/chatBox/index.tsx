@@ -1,6 +1,6 @@
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
 import { chatItemType } from "@/utils/types/chatTypes";
-import { Avatar } from "antd";
+import { Avatar, message } from "antd";
 import React from "react";
 import {
   CopyOutlined,
@@ -13,6 +13,29 @@ interface props {
 }
 
 const ChatBox = ({ currentChat = [] }: props) => {
+  const CopyText = (text: string) => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(
+        () => {
+          message.open({
+            type: "info",
+            content: "Text Copied",
+          });
+        },
+        (err) => {
+          message.open({
+            type: "warning",
+            content: "Failed to Copy",
+          });
+        }
+      );
+    } else {
+      message.open({
+        type: "warning",
+        content: "Update your Browser! Unsupport Clipboard API.",
+      });
+    }
+  };
   return (
     <div className={styles.ChatContainer}>
       {currentChat &&
@@ -30,7 +53,15 @@ const ChatBox = ({ currentChat = [] }: props) => {
                         <React.Fragment>
                           <p className={styles.question}>{item.content}</p>
                           <div className={styles.iconsCont}>
-                            <CopyOutlined className={styles.icon} />
+                            <CopyOutlined
+                              className={styles.icon}
+                              onClick={() => {
+                                {
+                                  typeof item.content === "string" &&
+                                    CopyText(item.content);
+                                }
+                              }}
+                            />
                           </div>
                         </React.Fragment>
                       )}
@@ -49,7 +80,15 @@ const ChatBox = ({ currentChat = [] }: props) => {
                             {currentChat.length - 1 === index && (
                               <RedoOutlined className={styles.icon} />
                             )}
-                            <CopyOutlined className={styles.icon} />
+                            <CopyOutlined
+                              className={styles.icon}
+                              onClick={() => {
+                                {
+                                  typeof item.content === "string" &&
+                                    CopyText(item.content);
+                                }
+                              }}
+                            />
                             <ExperimentOutlined className={styles.icon} />
                           </div>
                         </React.Fragment>

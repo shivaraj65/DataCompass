@@ -26,3 +26,33 @@ model User {
   accountStatus Boolean
 }
 
+model Thread {
+  id    String   @id @map("_id")
+  userId String 
+  title String
+  chatType String
+  isDeleted Boolean
+  createdAt DateTime  
+  databaseConnection String?
+  ragType String?
+  externalRag String?
+}
+
+model Message {
+  id    String   @id @map("_id")
+  threadId String
+  role String 
+  context Json
+  metrics Json?
+  isDeleted Boolean
+  createdAt DateTime
+}
+
+model PromptStore {
+  id    String   @id @map("_id")
+  userId String
+  context Json
+  promptType String
+  isDeleted Boolean
+  createdAt DateTime
+}

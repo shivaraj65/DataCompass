@@ -7,21 +7,23 @@ export interface SignupData {
   password: string;
 }
 
-export interface SignupResponse {
+export interface ApiResponse {
   data: any;
   status: string;
   error: string;
 }
 
-export interface LoginData {  
+export interface LoginData {
   email: string;
   password: string;
 }
 
-export interface LoginResponse {
-  data: any;
-  status: string;
-  error: string;
+export interface UpdateUserData {
+  id: string;
+  name?: string;
+  password?: string;
+  llmApiKeys?: any;
+  databases?: any;
 }
 
 export interface ApiError {
@@ -29,13 +31,15 @@ export interface ApiError {
 }
 
 export const signupApi = createAsyncThunk<
-  SignupResponse,
+  ApiResponse,
   SignupData,
   { rejectValue: string }
 >("api/signup", async (signupData, { rejectWithValue }) => {
   try {
-    const response: AxiosResponse<SignupResponse> =
-      await axios.post<SignupResponse>(`/api/signup`, signupData);
+    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
+      `/api/signup`,
+      signupData
+    );
     return response.data;
   } catch (error) {
     const err = error as AxiosError<ApiError>;
@@ -44,13 +48,34 @@ export const signupApi = createAsyncThunk<
 });
 
 export const loginApi = createAsyncThunk<
-  LoginResponse,
+  ApiResponse,
   LoginData,
   { rejectValue: string }
 >("api/login", async (loginData, { rejectWithValue }) => {
   try {
-    const response: AxiosResponse<SignupResponse> =
-      await axios.post<SignupResponse>(`/api/login`, loginData);
+    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
+      `/api/login`,
+      loginData
+    );
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<ApiError>;
+    return rejectWithValue(err.response?.data?.message || "An error occurred");
+  }
+});
+
+export const updateUserApi = createAsyncThunk<
+  ApiResponse,
+  UpdateUserData,
+  { rejectValue: string }
+>("api/updateUser", async (UpdateUserData, { rejectWithValue }) => {
+  try {
+    console.log("do something");
+    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
+      `/api/updateUsers`,
+      UpdateUserData
+    );
+    console.log("response.data upadate", response.data);
     return response.data;
   } catch (error) {
     const err = error as AxiosError<ApiError>;

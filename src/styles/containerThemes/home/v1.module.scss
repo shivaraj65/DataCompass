@@ -1,20 +1,66 @@
+@use "../../theme/appTheme.scss";
+
 .homeContainer {
   height: 100svh !important;
-  .siderContainer{
+  .siderContainer {
     padding: 1rem 0.5rem;
 
-    .logoContainer{
-      margin-bottom: 0.8rem;
+    .rootFlexCont {
+      height: 100%;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      .logo{
-        width: 90%;
+      flex-direction: column;
+      justify-content: space-between;
+      .logoContainer {
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .logo {
+          width: 90%;
+        }
+        .title {
+          padding: 0.5rem;
+          font-weight: 900;
+          font-size: 1.5rem;
+        }
       }
-      .title{
-        padding:0.5rem;
-        font-weight: 900;
-        font-size: 1.5rem;
+      .footerContainer {
+        width: 100%;
+        .themeToggleContainer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin: 0.7rem 0 0.4rem;
+          background-color: appTheme.$mix-light-400;
+          padding: 8px;
+          border-radius: 8px;
+          .text {
+            font-family: "Josefin Sans", sans-serif;
+            font-weight: 600;
+          }
+        }
+        .flexContainer {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background-color: appTheme.$mix-light-400;
+          padding: 4px 8px;
+          border-radius: 8px;
+          .userName {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            font-family: "Josefin Sans", sans-serif;
+            font-weight: 600;
+          }
+          .logoutButton {
+            margin-left: 6px;
+            padding: 0 8px;
+            color: #ff0000;
+            background-color: appTheme.$mix-light-400;
+          }
+        }
       }
     }
   }

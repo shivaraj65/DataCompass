@@ -1,6 +1,11 @@
 import ErrorPage from "@/components/ui/errorPage";
+import { userInfotypes } from "@/utils/types/appTypes";
 
-const Appearance = () => {
+interface props {
+  userInfo: userInfotypes;
+}
+
+const Appearance = ({userInfo}:props) => {
   return (
     <div>
       <ErrorPage

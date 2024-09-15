@@ -50,9 +50,9 @@ hr {
 
 .themeToggle {
   /* height: 1rem !important; */
-  display: flex !important;
-  margin: 0 auto;
+  /* display: flex !important; */
+  margin: 0;
   /* align-items: center !important; */
   /* justify-content: center !important; */
-  width: 50% !important;
+  width: auto !important;
 }

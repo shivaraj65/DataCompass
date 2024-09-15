@@ -1,3 +1,5 @@
+@use "../../../../../theme/appTheme.scss";
+
 .profileContainer {
   flex: 1;
   width: 100% !important;
@@ -46,6 +48,21 @@
       max-height: 100%;
       box-shadow: #0000002e 0px 2px 4px;
       border: 1px solid #a9a8a842 !important;
+    }
+  }
+}
+
+* {
+  [data-theme="light"] {
+  }
+  [data-theme="dark"] {
+    .editButton {
+      color: appTheme.$light-600;
+      background-color: appTheme.$mix-dark-100;
+      &:hover {
+        color: appTheme.$light-100 !important;
+        background-color: appTheme.$mix-dark-100 !important;
+      }
     }
   }
 }

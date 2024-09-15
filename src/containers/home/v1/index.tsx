@@ -4,14 +4,15 @@ import {
   CompassOutlined,
   EditOutlined,
   SettingOutlined,
-  BookOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Avatar, Layout, Menu } from "antd";
+import { Avatar, Button, Layout, Menu } from "antd";
 import type { RootState } from "../../../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import ThemeToggle from "@/components/ui/themeToggle/themeToggle";
 import Settings from "./pages/settings";
 import Page1 from "./pages/page1";
+import Page2 from "./pages/page2";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -66,30 +67,47 @@ const Home = () => {
           // console.log(collapsed, type);
         }}
       >
-        {/* <div className="demo-logo-vertical" /> */}
-        <div className={styles.logoContainer}>
-          {appInfo && <img src={appInfo?.logo} className={styles.logo} />}
+        <div className={styles.rootFlexCont}>
+          <div>
+            <div className={styles.logoContainer}>
+              {appInfo && <img src={appInfo?.logo} className={styles.logo} />}
+            </div>
 
-          {/* <h2 className={styles.title}>{appInfo && appInfo?.name}</h2> */}
+            <Menu
+              theme={theme === "dark" ? "dark" : "light"}
+              mode="inline"
+              defaultSelectedKeys={[selectedMenu.key]}
+              items={items}
+              onSelect={(e) => {
+                const [selectedItem] = items.filter(
+                  (item) => item.key === e.key
+                );
+                setSelectedMenu(selectedItem || {});
+              }}
+            />
+          </div>
+
+          <div className={styles.footerContainer}>
+            <div className={styles.themeToggleContainer}>
+              <span className={styles.text}>Theme</span>
+              <ThemeToggle />
+            </div>
+
+            <div className={styles.flexContainer}>
+              <span className={styles.userName}>{userInfo?.name}</span>
+              <Button className={styles.logoutButton}>
+                <LogoutOutlined />
+              </Button>
+            </div>
+          </div>
         </div>
-
-        <Menu
-          theme={theme === "dark" ? "dark" : "light"}
-          mode="inline"
-          defaultSelectedKeys={[selectedMenu.key]}
-          items={items}
-          onSelect={(e) => {
-            const [selectedItem] = items.filter((item) => item.key === e.key);
-            setSelectedMenu(selectedItem || {});
-          }}
-        />
-        <ThemeToggle />
       </Sider>
       <Layout className={`bg-primary primaryText ${styles.rightContainer}`}>
         {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
 
         <div style={{ width: "100%", height: "100%" }}>
-          {selectedMenu.key === "page1" && <Page1 chat={chat}/>}
+          {selectedMenu.key === "page1" && <Page1 chat={chat} />}
+          {selectedMenu.key === "page2" && <Page2 />}
           {selectedMenu.key === "page4" && <Settings userInfo={userInfo} />}
         </div>
 

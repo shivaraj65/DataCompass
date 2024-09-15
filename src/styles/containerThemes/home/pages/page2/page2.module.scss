@@ -1,0 +1,120 @@
+@use "../../../../theme//appTheme.scss";
+
+* {
+  [data-theme="light"] {
+    .page2Container {
+      height: 100%;
+      width: 100%;
+      overflow-y: auto;
+      font-family: "Montserrat", sans-serif;
+
+      .title {
+        margin-bottom: 1rem;
+        padding-top: 0.6rem;
+        font-family: "Josefin Sans", sans-serif;
+      }
+      .historyCard {
+        // margin: 12px;
+        border: 1.5px solid appTheme.$mix-light-600;
+        border-radius: 8px;
+        padding: 8px 8px;
+        .innerContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .imageContainer {
+            width: 30%;
+            padding: 4px;
+            .image {
+              width: 100%;
+            }
+          }
+          .content {
+            padding: 0 6px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            .cardTitle {
+              color: appTheme.$primary-100;
+              font-family: "Josefin Sans", sans-serif;
+              margin: 0.7rem 0 0.5rem 0;
+              font-size: 1.1rem;
+              font-weight: 700;
+            }
+            .badgeContainer {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              .description {
+                font-size: 0.8rem;
+                color: appTheme.$light-600;
+              }
+              .settingsBtn {
+                color: appTheme.$mix-dark-400;
+                background-color: appTheme.$mix-light-600;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  [data-theme="dark"] {
+    .page2Container {
+      height: 100%;
+      width: 100%;
+      overflow-y: auto;
+      font-family: "Montserrat", sans-serif;
+
+      .title {
+        margin-bottom: 1rem;
+        font-family: "Josefin Sans", sans-serif;
+      }
+      .historyCard {
+        // margin: 12px;
+        border: 1.5px solid appTheme.$mix-dark-100;
+        border-radius: 8px;
+        padding: 8px 8px;
+        .innerContainer {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .imageContainer {
+            width: 30%;
+            padding: 4px;
+            .image {
+              width: 100%;
+            }
+          }
+          .content {
+            padding: 0 6px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            .cardTitle {
+              color: appTheme.$light-100;
+              font-family: "Josefin Sans", sans-serif;
+              margin: 0.7rem 0 0.5rem 0;
+              font-size: 1.1rem;
+              font-weight: 700;
+            }
+            .badgeContainer {
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              .description {
+                font-size: 0.8rem;
+                color: appTheme.$primary-600;
+              }
+              .settingsBtn {
+                color: appTheme.$light-600;
+                background-color: appTheme.$mix-dark-100;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

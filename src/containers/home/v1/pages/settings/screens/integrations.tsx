@@ -1,7 +1,12 @@
 import { Avatar, Col, Row } from "antd";
 import styles from "@/styles/containerThemes/home/pages/settings/screens/integrations.module.scss";
+import { userInfotypes } from "@/utils/types/appTypes";
 
-const Integrations = () => {
+interface props {
+  userInfo: userInfotypes;
+}
+
+const Integrations = ({ userInfo }: props) => {
   return (
     <div className={styles.integrationsContainer}>
       <div className={styles.integrationsHeader}>
@@ -19,6 +24,14 @@ const Integrations = () => {
             <div className={`${styles.scrollerContent} bg-primary`}>
               <h4 className={styles.title}>Connected API keys</h4>
               <table>
+                {Object.entries(userInfo.llmApiKeys).map(
+                  ([key, value]: any, index) => (
+                    <tr key={index}>
+                      <td>{key}</td>
+                      <td>{value}</td>
+                    </tr>
+                  )
+                )}
                 <tr>
                   <td>Gpt Vision Key</td>
                   <td> ***************</td>
@@ -30,6 +43,14 @@ const Integrations = () => {
             <div className={`${styles.scrollerContent} bg-primary`}>
               <h4 className={styles.title}>Saved Databases</h4>
               <table>
+                {Object.entries(userInfo.databases).map(
+                  ([key, value]: any, index) => (
+                    <tr key={index}>
+                      <td>{key}</td>
+                      <td>{value}</td>
+                    </tr>
+                  )
+                )}
                 <tr>
                   <td>Sqlite URL</td>
                   <td>http://localhost:8080//1234</td>

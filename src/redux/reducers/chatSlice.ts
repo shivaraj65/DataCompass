@@ -108,7 +108,7 @@ const initialState: chatType = {
     isAvailable: true,
   },
   file: null,
-  currentChat: DummyChat,
+  currentChat: null,
   chatId: null,
   loading: false,
   error: null,

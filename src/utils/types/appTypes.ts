@@ -35,3 +35,9 @@ export interface loginTypes {
   loading: boolean;
   error: string | null;
 }
+
+export interface UpdateUserTypes {
+  message: string | null;
+  loading: boolean;
+  error: string | null;
+}

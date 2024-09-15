@@ -20,7 +20,7 @@ const ThemeToggle = () => {
       className="themeToggle"
       onChange={setIsDarkMode}
       checked={theme === "dark" ? true : false}
-      size={"3.5rem"}
+      size={"3rem"}
     />
   );
 };

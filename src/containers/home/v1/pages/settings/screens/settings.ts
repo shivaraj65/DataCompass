@@ -1,15 +1,21 @@
 import {
-    FormatPainterOutlined,
-    ThunderboltOutlined,
-    UserOutlined,
-    ProfileOutlined,
-    CommentOutlined,
-  } from "@ant-design/icons";
-  import Account from './account';
-  import Appearance from "./appearance";
-  import Integrations from "./integrations";
-  import Notifications from "./notifications";
-  import Profile from "./profile";  
+  FormatPainterOutlined,
+  ThunderboltOutlined,
+  UserOutlined,
+  ProfileOutlined,
+  CommentOutlined,
+} from "@ant-design/icons";
+import Account from "./account";
+import Appearance from "./appearance";
+import Integrations from "./integrations";
+import Notifications from "./notifications";
+import Profile from "./profile";
+
+import ProfileIcon from "@/assets/illustrations/profile.png";
+import AccountIcon from "@/assets/illustrations/account.png";
+import NotificationIcon from "@/assets/illustrations/notifications.png";
+import AppearanceIcon from "@/assets/illustrations/appearance.png";
+import IntegrationsIcon from "@/assets/illustrations/integrations.png";
 
 type SettingsCardItemType = {
   key: string;
@@ -17,48 +23,48 @@ type SettingsCardItemType = {
   title: string;
   description: string[];
   isShow: boolean;
-  component:any;
+  component: any;
 };
 
 export const cardItems: SettingsCardItemType[] = [
   {
     key: "Profile",
-    icon: UserOutlined,
+    icon: ProfileIcon,
     title: "Profile",
     description: ["Update Profile Info", "Change Password"],
     isShow: true,
-    component:Profile
+    component: Profile,
   },
   {
     key: "Account",
-    icon: ProfileOutlined,
+    icon: AccountIcon,
     title: "Account",
     description: [" Privacy Settings", "Delete Account"],
     isShow: true,
-    component:Account
+    component: Account,
   },
   {
     key: "Notifications",
-    icon: CommentOutlined,
+    icon: NotificationIcon,
     title: "Notifications",
     description: ["Email Alerts", "Push Notifications"],
     isShow: true,
-    component:Notifications
+    component: Notifications,
   },
   {
     key: "Appearance",
-    icon: FormatPainterOutlined,
+    icon: AppearanceIcon,
     title: "Appearance",
     description: ["Dark Mode / Light Mode Toggle", "Font Size and Style"],
     isShow: true,
-    component:Appearance
+    component: Appearance,
   },
   {
     key: "Integrations",
-    icon: ThunderboltOutlined,
+    icon: IntegrationsIcon,
     title: "Integrations & Connected Apps",
     description: ["Connected Apps and Services", "API Keys"],
     isShow: true,
-    component:Integrations
+    component: Integrations,
   },
 ];

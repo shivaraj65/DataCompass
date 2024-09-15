@@ -50,10 +50,7 @@ const Login = () => {
 
   useEffect(() => {
     if (login.message === "success") {
-      // message.open({
-      //   type: "success",
-      //   content: login.message,
-      // });
+      sessionStorage.setItem("userProfile", JSON.stringify(userInfo));
       dispatch(resetLogin());
       router.push("/home");
     } else {
@@ -165,4 +162,3 @@ const Login = () => {
 };
 
 export default Login;
-

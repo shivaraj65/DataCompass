@@ -1,6 +1,11 @@
 import ErrorPage from "@/components/ui/errorPage";
+import { userInfotypes } from "@/utils/types/appTypes";
 
-const Notifications = () => {
+interface props {
+  userInfo: userInfotypes;
+}
+
+const Notifications = ({userInfo}:props) => {
   return (
     <div>
       <ErrorPage
