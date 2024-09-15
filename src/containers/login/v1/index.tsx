@@ -135,7 +135,7 @@ const Login = () => {
         </div>
         <div className={styles.footer}>
           <p className={styles.footerText}>
-            Don't have an Account{" "}
+            Don&apos;t have an Account
             <span
               className={styles.linkText}
               onClick={() => {

@@ -8,7 +8,7 @@ import { resetSignup } from "@/redux/reducers/appSlice";
 import { useRouter } from "next/router";
 import { CloseOutlined } from "@ant-design/icons";
 
-export default function signup() {
+const Signup = () => {
   const router = useRouter();
 
   const [name, setName] = useState("");
@@ -179,3 +179,6 @@ export default function signup() {
     </React.Fragment>
   );
 }
+
+
+export default Signup;
