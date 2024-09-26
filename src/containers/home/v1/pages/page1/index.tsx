@@ -9,9 +9,10 @@ import {
   DownCircleOutlined,
 } from "@ant-design/icons";
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
-import { useState } from "react";
+import React, { useState } from "react";
 import SearchBox from "@/components/ui/searchBox";
 import {
+  addNewMessage,
   chatType,
   resetNewChat,
   setChatModel,
@@ -22,18 +23,20 @@ import {
 } from "@/redux/reducers/chatSlice";
 import { useDispatch } from "react-redux";
 import ChatBox from "@/components/ui/chatBox";
+import { simpleChat } from "@/redux/asyncApi/chat";
+import { AppDispatch } from "@/redux/store";
 
 interface props {
   chat: chatType;
 }
 
 const Page1 = ({ chat }: props) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const onChangeInputValue = (e: any) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     dispatch(setInputValue(e.target.value));
   };
 
@@ -71,6 +74,23 @@ const Page1 = ({ chat }: props) => {
     dispatch(resetNewChat());
   };
 
+  const resetInputBox = () => {
+    dispatch(setInputValue(""));
+  };
+
+  const onSubmit = async () => {
+    await dispatch(
+      addNewMessage({
+        role: "user",
+        content: chat.inputValue,
+        metrics: null,
+      })
+    );
+
+    dispatch(simpleChat());
+    resetInputBox();
+  };
+
   return (
     <div className={styles.page1Container}>
       {chat.currentChat && chat.currentChat.length > 0 ? (
@@ -90,7 +110,7 @@ const Page1 = ({ chat }: props) => {
           <ChatBox currentChat={chat.currentChat} />
 
           <SearchBox
-            isChatPage={true} 
+            isChatPage={true}
             inputValue={chat.inputValue}
             onChangeInputValue={onChangeInputValue}
             chatType={chat.chatType}
@@ -104,25 +124,30 @@ const Page1 = ({ chat }: props) => {
             rag={chat.rag}
             onChangeRag={onChangeRag}
             onResetSettings={onResetSettings}
+            onSubmit={onSubmit}
           />
         </div>
       ) : (
-        <SearchBox
-          isChatPage={false}
-          inputValue={chat.inputValue}
-          onChangeInputValue={onChangeInputValue}
-          chatType={chat.chatType}
-          onChatTypeChange={onChatTypeChange}
-          chatModel={chat.chatModel}
-          onChangeChatModel={onChangeChatModel}
-          isSettingsOpen={isSettingsOpen}
-          onChangeSettingsOpen={onChangeSettingsOpen}
-          chatTemperature={chat.chatTemperature}
-          onChangeChatTemperature={onChangeChatTemperature}
-          rag={chat.rag}
-          onChangeRag={onChangeRag}
-          onResetSettings={onResetSettings}
-        />
+        <React.Fragment>
+          {/* initial page box */}
+          <SearchBox
+            isChatPage={false}
+            inputValue={chat.inputValue}
+            onChangeInputValue={onChangeInputValue}
+            chatType={chat.chatType}
+            onChatTypeChange={onChatTypeChange}
+            chatModel={chat.chatModel}
+            onChangeChatModel={onChangeChatModel}
+            isSettingsOpen={isSettingsOpen}
+            onChangeSettingsOpen={onChangeSettingsOpen}
+            chatTemperature={chat.chatTemperature}
+            onChangeChatTemperature={onChangeChatTemperature}
+            rag={chat.rag}
+            onChangeRag={onChangeRag}
+            onResetSettings={onResetSettings}
+            onSubmit={onSubmit}
+          />
+        </React.Fragment>
       )}
     </div>
   );

@@ -5,12 +5,14 @@
 
 import { chatItemType, fileDataType } from "@/utils/types/chatTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { simpleChat } from "../asyncApi/chat";
 
 const DummyChat: chatItemType[] = [
   {
     id: "1",
     role: "user",
-    content: "Hi, I’m trying to connect a new data source to my dashboard. Can you guide me?",
+    content:
+      "Hi, I’m trying to connect a new data source to my dashboard. Can you guide me?",
     metrics: null,
     loading: false,
     error: null,
@@ -18,7 +20,8 @@ const DummyChat: chatItemType[] = [
   {
     id: "2",
     role: "assistant",
-    content: "Of course! What type of data source are you trying to integrate—SQL, CSV, or something else?",
+    content:
+      "Of course! What type of data source are you trying to integrate—SQL, CSV, or something else?",
     metrics: null,
     loading: false,
     error: null,
@@ -34,7 +37,8 @@ const DummyChat: chatItemType[] = [
   {
     id: "4",
     role: "assistant",
-    content: "Great! First, make sure you have the connection details handy, like the server address, username, password, and database name. I can help you set up the connection string if you share those details.",
+    content:
+      "Great! First, make sure you have the connection details handy, like the server address, username, password, and database name. I can help you set up the connection string if you share those details.",
     metrics: null,
     loading: false,
     error: null,
@@ -50,7 +54,8 @@ const DummyChat: chatItemType[] = [
   {
     id: "6",
     role: "assistant",
-    content: "Perfect! I’ve set up the connection string for you. You just need to test the connection on your dashboard now. If it doesn’t work, I can troubleshoot it further.",
+    content:
+      "Perfect! I’ve set up the connection string for you. You just need to test the connection on your dashboard now. If it doesn’t work, I can troubleshoot it further.",
     metrics: null,
     loading: false,
     error: null,
@@ -66,11 +71,12 @@ const DummyChat: chatItemType[] = [
   {
     id: "8",
     role: "assistant",
-    content: "Awesome! Let me know if you need any more assistance setting up queries or visualizations for your data.",
+    content:
+      "Awesome! Let me know if you need any more assistance setting up queries or visualizations for your data.",
     metrics: null,
     loading: false,
     error: null,
-  }
+  },
 ];
 
 export interface chatType {
@@ -99,7 +105,7 @@ const initialState: chatType = {
   inputValue: "",
   chatType: "simple",
   chatModel: {
-    value: "gpt_4_vision",
+    value: "gpt-4o-mini",
     isAvailable: true,
   },
   chatTemperature: "precise",
@@ -150,6 +156,53 @@ const chatSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    addNewMessage(state, action) {
+      let chatArr = state.currentChat;
+      chatArr = [
+        ...(chatArr ? chatArr : []),
+        {
+          id: null,
+          role: action.payload.role,
+          content: action.payload.content,
+          metrics: action.payload.metrics,
+          loading: false,
+          error: null,
+        },
+      ];
+      state.currentChat = chatArr;
+    },
+    onStreaming(state, action) {
+      let chatArr = state.currentChat;
+      if (chatArr && chatArr.length > 0)
+        chatArr[chatArr.length - 1].content += action.payload;
+    },
+    onMetricsCapture(state, action) {
+      let chatArr = state.currentChat;
+      if (chatArr && chatArr.length > 0)
+        chatArr[chatArr.length - 1].metrics = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(simpleChat.pending, (state) => {
+        let chatArr = state.currentChat;
+        if (chatArr && chatArr.length > 0)
+          chatArr[chatArr.length - 1].loading = true;
+      })
+      .addCase(simpleChat.fulfilled, (state, action: PayloadAction<any>) => {
+        let chatArr = state.currentChat;
+        if (chatArr && chatArr.length > 0) {
+          chatArr[chatArr.length - 1].error = null;
+          chatArr[chatArr.length - 1].loading = false;
+          // chatArr[chatArr.length - 1].metrics = action.payload.metrics;
+        }
+      })
+      .addCase(simpleChat.rejected, (state, action: PayloadAction<any>) => {
+        let chatArr = state.currentChat;
+        if (chatArr && chatArr.length > 0)
+          chatArr[chatArr.length - 1].error =
+            action.payload.error || "An error occurred";
+      });
   },
 });
 
@@ -160,5 +213,8 @@ export const {
   setChatTemperature,
   setRag,
   resetNewChat,
+  addNewMessage,
+  onStreaming,
+  onMetricsCapture
 } = chatSlice.actions;
 export default chatSlice.reducer;

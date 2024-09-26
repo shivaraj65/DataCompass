@@ -36,6 +36,7 @@ interface props {
   };
   onChangeRag: any;
   onResetSettings: any;
+  onSubmit: any;
 }
 
 const SearchBox = ({
@@ -53,6 +54,7 @@ const SearchBox = ({
   rag,
   onChangeRag,
   onResetSettings,
+  onSubmit,
 }: props) => {
   const [value3, setValue3] = useState("simple");
 
@@ -61,6 +63,13 @@ const SearchBox = ({
     { label: "RAG", value: "rag" },
     { label: "Data Wizard", value: "data_wizard" },
   ];
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      onSubmit();
+    }
+  };
 
   return (
     <>
@@ -108,6 +117,7 @@ const SearchBox = ({
             placeholder=""
             value={inputValue}
             onChange={onChangeInputValue}
+            onKeyDown={handleKeyDown}
             // variant="filled"
             rows={2}
           />
@@ -115,7 +125,12 @@ const SearchBox = ({
             <AudioOutlined />
             {/* <AudioMutedOutlined />  */}
           </Button>
-          <Button type="text" size={"small"} className={styles.sendButton}>
+          <Button
+            type="text"
+            size={"small"}
+            className={styles.sendButton}
+            onClick={onSubmit}
+          >
             <SendOutlined />
           </Button>
         </div>
@@ -130,9 +145,8 @@ const SearchBox = ({
                 status={chatModel.isAvailable ? "" : "error"}
                 onChange={onChangeChatModel}
                 options={[
-                  { value: "gpt-3.5", label: "gpt 3.5" },
-                  { value: "gpt-4", label: "gpt 4" },
-                  { value: "gpt-4-vision", label: "gpt 4-vision" },
+                  { value: "gpt-3.5-turbo", label: "GPT 3.5" },
+                  { value: "gpt-4o-mini", label: "GPT 4o mini" },
                 ]}
               />
               {isSettingsOpen && (

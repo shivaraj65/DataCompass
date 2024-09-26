@@ -29,15 +29,17 @@ const Home: React.FC = () => {
 
     // Dynamically import the component based on the configuration
     const loadComponent = async () => {
-      setLoading(true);
-      try {
-        // Ensure the config returns a promise resolving to a module with a default export
-        const { default: LoadedComponent } = await homeConfig[config.home]();
-        setComponent(() => LoadedComponent);
-      } catch (err) {
-        setError(err as Error); // Cast the error to the Error type
-      } finally {
-        setLoading(false);
+      if (!Component) {
+        setLoading(true);
+        try {
+          // Ensure the config returns a promise resolving to a module with a default export
+          const { default: LoadedComponent } = await homeConfig[config.home]();
+          setComponent(() => LoadedComponent);
+        } catch (err) {
+          setError(err as Error); // Cast the error to the Error type
+        } finally {
+          setLoading(false);
+        }
       }
     };
     loadComponent();
