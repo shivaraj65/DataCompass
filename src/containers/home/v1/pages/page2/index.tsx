@@ -11,6 +11,11 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { useEffect } from "react";
+import { AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { getChatMessages } from "@/redux/asyncApi/chat";
+import { userInfotypes } from "@/utils/types/appTypes";
 
 const MockData = [
   {
@@ -33,7 +38,21 @@ const MockData = [
   },
 ];
 
-const Page2 = () => {
+interface props {
+  userInfo: any;
+}
+
+const Page2 = ({ userInfo }: props) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(
+      getChatMessages({
+        email: userInfo?.email,
+      })
+    );
+  }, []);
+
   const SettingsContent = (
     <div
       style={{

@@ -169,7 +169,7 @@
         }
         .ChatContainer {
           flex: 1;
-          width: 75%;
+          width: 90%;
           padding: 0.5rem 0.5rem 2rem;
           overflow-y: auto;
           .userMessageContainer {
@@ -216,7 +216,7 @@
             }
           }
           .assistantMessageContainer {
-            max-width: 80%;
+            max-width: 90%;
             display: flex;
             align-items: flex-start;
             gap: 8px;
@@ -238,6 +238,11 @@
                 border-bottom-left-radius: 12px;
                 border-bottom-right-radius: 12px;
                 margin-top: 0.7rem;
+                .markdown_comp{
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;                 
+                }
               }
               .iconsCont {
                 width: 100%;
@@ -394,7 +399,7 @@
         }
         .ChatContainer {
           flex: 1;
-          width: 75%;
+          width: 90%;
           padding: 0.5rem 0.5rem 2rem;
           overflow-y: auto;
           .userMessageContainer {
@@ -441,7 +446,7 @@
             }
           }
           .assistantMessageContainer {
-            max-width: 80%;
+            max-width: 90%;
             display: flex;
             align-items: flex-start;
             gap: 8px;
@@ -463,6 +468,11 @@
                 border-bottom-left-radius: 12px;
                 border-bottom-right-radius: 12px;
                 margin-top: 0.7rem;
+                .markdown_comp{
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;                 
+                }
               }
               .iconsCont {
                 width: 100%;

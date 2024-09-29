@@ -11,6 +11,30 @@ import { AppDispatch, RootState } from "../store";
 export interface ApiError {
   message: string;
 }
+
+export interface ApiResponse {
+  data: any;
+  status: string;
+  error: string;
+}
+
+export interface chatSaveRequest {
+  threadID?: string | null;
+  userId: any;
+  title?: any;
+  chatType?: string;
+  databaseConnection?: string;
+  ragType?: string;
+  externalRag?: string;
+  question: any;
+  answer: any;
+  metrics: any;
+}
+
+export interface getChatMessagesRequest {
+  email: string;
+}
+
 export interface ChatData {
   // chatHistory: any[];
 }
@@ -41,14 +65,14 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
       const question =
         state.chat.currentChat &&
         state.chat.currentChat[state.chat.currentChat.length - 1].content;
-      const model = state.chat.chatModel.value
-      const temperature = state.chat.chatTemperature
+      const model = state.chat.chatModel.value;
+      const temperature = state.chat.chatTemperature;
 
       const payload = {
         chatHistory,
         question,
         model,
-        temperature
+        temperature,
       };
 
       const response = await fetch("/api/simpleChat", {
@@ -71,12 +95,14 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
         const { value, done } = await reader.read();
 
         if (done) {
+          console.log("final done trigger");
+          await dispatch(chatSave());
           break;
         }
 
         if (value) {
           const chunk = decoder.decode(value, { stream: true });
-          chunk.split("\n").forEach((line: string) => {
+          chunk.split("\n").forEach(async (line: string) => {
             if (line) {
               try {
                 let newLine: string = line;
@@ -84,7 +110,9 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
                   newLine = line.substring(6);
                 }
                 if (newLine.trim() === "[DONE]") {
-                  return;
+                  console.log("done triggered");
+
+                  // return;
                 } else if (newLine.trim() === "[ERROR]") {
                   return rejectWithValue("ERROR in Streaming");
                 } else {
@@ -93,7 +121,7 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
                     if (parsedData) {
                       dispatch(onStreaming(parsedData?.kwargs?.content || ""));
                       if (parsedData?.kwargs?.usage_metadata) {
-                        dispatch(
+                        await dispatch(
                           onMetricsCapture(parsedData?.kwargs?.usage_metadata)
                         );
                       }
@@ -117,3 +145,59 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
     }
   }
 );
+
+export const chatSave = createAsyncThunk<
+  ApiResponse,
+  void,
+  { rejectValue: string }
+>("api/chatSave", async (_, { rejectWithValue, getState }) => {
+  const state = getState() as RootState;
+  const payload: chatSaveRequest = {
+    threadID: state.chat.chatId ? state.chat.chatId : null,
+    userId: state.app.userInfo && state.app.userInfo.email,
+    title:
+      state.chat.currentChat &&
+      state.chat.currentChat[state.chat.currentChat.length - 2].content,
+    chatType: state.chat.chatType,
+    // databaseConnection: null,
+    // ragType: state.chat.rag.value,
+    // externalRag:null,
+    question:
+      state.chat.currentChat &&
+      state.chat.currentChat[state.chat.currentChat.length - 2].content,
+    answer:
+      state.chat.currentChat &&
+      state.chat.currentChat[state.chat.currentChat?.length - 1].content,
+    metrics:
+      (state.chat.currentChat &&
+        state.chat.currentChat[state.chat.currentChat?.length - 1].metrics) ||
+      {},
+  };
+  try {
+    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
+      `/api/chatSave`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<ApiError>;
+    return rejectWithValue(err.response?.data?.message || "An error occurred");
+  }
+});
+
+export const getChatMessages = createAsyncThunk<
+  ApiResponse,
+  getChatMessagesRequest,
+  { rejectValue: string }
+>("api/chatHistoryGet", async (getChatMessagesRequest, { rejectWithValue }) => {
+  try {
+    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
+      `/api/chatHistoryGet`,
+      getChatMessagesRequest
+    );
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<ApiError>;
+    return rejectWithValue(err.response?.data?.message || "An error occurred");
+  }
+});

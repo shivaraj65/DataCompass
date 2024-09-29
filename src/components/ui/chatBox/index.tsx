@@ -7,6 +7,12 @@ import {
   RedoOutlined,
   ExperimentOutlined,
 } from "@ant-design/icons";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 interface props {
   currentChat: chatItemType[] | null;
@@ -75,7 +81,36 @@ const ChatBox = ({ currentChat = [] }: props) => {
                     <div className={styles.flexStart}>
                       {item.content && typeof item.content === "string" && (
                         <React.Fragment>
-                          <p className={styles.answer}>{item.content}</p>
+                          <p className={styles.answer}>
+                            <Markdown
+                              remarkPlugins={[remarkGfm]}
+                              className={styles.markdown_comp}
+                              components={{
+                                code(props) {
+                                  const { children, className, node, ...rest } =
+                                    props;
+                                  const match = /language-(\w+)/.exec(
+                                    className || ""
+                                  );
+                                  return match ? (
+                                    <SyntaxHighlighter
+                                      // {...rest}
+                                      language={match[1]}
+                                      style={atomDark}
+                                    >
+                                      {String(children).replace(/\n$/, "")}
+                                    </SyntaxHighlighter>
+                                  ) : (
+                                    <code {...rest} className={className}>
+                                      {children}
+                                    </code>
+                                  );
+                                },
+                               }}
+                            >
+                             {item && typeof item.content === "string" ? item.content : null}
+                            </Markdown>
+                          </p>
                           <div className={styles.iconsCont}>
                             {currentChat.length - 1 === index && (
                               <RedoOutlined className={styles.icon} />

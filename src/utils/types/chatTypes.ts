@@ -55,3 +55,9 @@ export interface chatItemType {
   loading: boolean;
   error: string | null;
 }
+
+export interface chatHistoryType{
+  history: any[] | null;
+  loading: boolean;
+  error: string | null;
+}

@@ -3,9 +3,13 @@
  * -> chat info
  */
 
-import { chatItemType, fileDataType } from "@/utils/types/chatTypes";
+import {
+  chatHistoryType,
+  chatItemType,
+  fileDataType,
+} from "@/utils/types/chatTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { simpleChat } from "../asyncApi/chat";
+import { chatSave, getChatMessages, simpleChat } from "../asyncApi/chat";
 
 const DummyChat: chatItemType[] = [
   {
@@ -95,6 +99,7 @@ export interface chatType {
   file: fileDataType | null;
   currentChat: chatItemType[] | null;
   chatId: string | null;
+  chatHistory: chatHistoryType;
 
   //global level loading / error flags...
   loading: boolean;
@@ -116,6 +121,11 @@ const initialState: chatType = {
   file: null,
   currentChat: null,
   chatId: null,
+  chatHistory: {
+    history: null,
+    loading: false,
+    error: null,
+  },
   loading: false,
   error: null,
 };
@@ -179,7 +189,10 @@ const chatSlice = createSlice({
     onMetricsCapture(state, action) {
       let chatArr = state.currentChat;
       if (chatArr && chatArr.length > 0)
-        chatArr[chatArr.length - 1].metrics = action.payload;
+        chatArr[chatArr.length - 1].metrics = {
+          ...chatArr[chatArr.length - 1].metrics,
+          ...action.payload,
+        };
     },
   },
   extraReducers: (builder) => {
@@ -202,7 +215,45 @@ const chatSlice = createSlice({
         if (chatArr && chatArr.length > 0)
           chatArr[chatArr.length - 1].error =
             action.payload.error || "An error occurred";
-      });
+      })
+      .addCase(chatSave.pending, (state) => {
+        let chatArr = state.currentChat;
+        if (chatArr && chatArr.length > 0)
+          chatArr[chatArr.length - 1].loading = true;
+      })
+      .addCase(chatSave.fulfilled, (state, action: PayloadAction<any>) => {
+        let chatArr = state.currentChat;
+        if (chatArr && chatArr.length > 0) {
+          chatArr[chatArr.length - 1].error = null;
+          chatArr[chatArr.length - 1].loading = false;
+          // chatArr[chatArr.length - 1].metrics = action.payload.metrics;
+        }
+      })
+      .addCase(chatSave.rejected, (state, action: PayloadAction<any>) => {
+        let chatArr = state.currentChat;
+        if (chatArr && chatArr.length > 0)
+          chatArr[chatArr.length - 1].error =
+            action.payload.error || "An error occurred";
+      })
+      .addCase(getChatMessages.pending, (state) => {
+        state.chatHistory.loading = true;
+        state.chatHistory.error = null;
+      })
+      .addCase(
+        getChatMessages.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.chatHistory.history = action.payload.data;
+          state.chatHistory.loading = false;
+          state.chatHistory.error = null;
+        }
+      )
+      .addCase(
+        getChatMessages.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.chatHistory.loading = false;
+          state.chatHistory.error = action.payload.error || "An error occurred";
+        }
+      );
   },
 });
 
@@ -215,6 +266,6 @@ export const {
   resetNewChat,
   addNewMessage,
   onStreaming,
-  onMetricsCapture
+  onMetricsCapture,
 } = chatSlice.actions;
 export default chatSlice.reducer;

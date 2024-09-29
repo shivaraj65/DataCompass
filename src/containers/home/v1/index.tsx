@@ -107,7 +107,7 @@ const Home = () => {
 
         <div style={{ width: "100%", height: "100%" }}>
           {selectedMenu.key === "page1" && <Page1 chat={chat} />}
-          {selectedMenu.key === "page2" && <Page2 />}
+          {selectedMenu.key === "page2" && <Page2 userInfo={userInfo}/>}
           {selectedMenu.key === "page4" && <Settings userInfo={userInfo} />}
         </div>
 
