@@ -1,5 +1,5 @@
 import styles from "@/styles/containerThemes/home/pages/page2/page2.module.scss";
-import { Badge, Button, Col, Popover, Row } from "antd";
+import { Badge, Button, Col, message, Popover, Row } from "antd";
 import Image from "next/image";
 
 import Simple from "@/assets/illustrations/simpleChat.png";
@@ -12,10 +12,12 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import { useEffect } from "react";
-import { AppDispatch } from "@/redux/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { getChatMessages } from "@/redux/asyncApi/chat";
 import { userInfotypes } from "@/utils/types/appTypes";
+import FullscreenLoader from "@/components/ui/fullscreenLoader";
+import ContentLoader from "@/components/ui/contentLoader";
 
 const MockData = [
   {
@@ -44,6 +46,7 @@ interface props {
 
 const Page2 = ({ userInfo }: props) => {
   const dispatch = useDispatch<AppDispatch>();
+  const chat = useSelector((state: RootState) => state.chat);
 
   useEffect(() => {
     dispatch(
@@ -52,6 +55,12 @@ const Page2 = ({ userInfo }: props) => {
       })
     );
   }, []);
+
+  useEffect(() => {
+    if (chat.chatHistory.error) message.error(chat.chatHistory.error);
+  }, [chat.chatHistory.error]);
+
+
 
   const SettingsContent = (
     <div
@@ -83,12 +92,17 @@ const Page2 = ({ userInfo }: props) => {
     </div>
   );
 
+
+  if (chat.chatHistory.loading) {
+    return <ContentLoader />;
+  }
+
   return (
     <div className={styles.page2Container}>
       <h1 className={styles.title}>Workspace</h1>
       <Row>
-        {MockData &&
-          MockData.map((item, index) => {
+        {chat.chatHistory.history &&
+          chat.chatHistory.history.map((item, index) => {
             return (
               <Col
                 xs={24}
@@ -123,7 +137,7 @@ const Page2 = ({ userInfo }: props) => {
                         <div className={styles.badgeContainer}>
                           <div>
                             <span className={styles.description}>
-                              {item.modelName}
+                              {new Date(item.createdAt).toLocaleString()}
                             </span>
                           </div>
                           <div>

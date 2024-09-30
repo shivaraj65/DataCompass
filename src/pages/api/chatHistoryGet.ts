@@ -20,6 +20,7 @@ export default async function handler(
     let userHistory = await prisma.thread.findMany({
       where: {
         userId: req.body.email,
+        isDeleted:false
       },
       orderBy: {
         createdAt: "desc",
