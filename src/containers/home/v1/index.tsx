@@ -13,6 +13,7 @@ import ThemeToggle from "@/components/ui/themeToggle/themeToggle";
 import Settings from "./pages/settings";
 import Page1 from "./pages/page1";
 import Page2 from "./pages/page2";
+import Page0 from "./pages/page0";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -42,8 +43,8 @@ const items = [
 const Home = () => {
   const [selectedMenu, setSelectedMenu] = useState<any>({
     key: "page1",
-    icon: <SettingOutlined />,
-    label: "Settings",
+    icon: <EditOutlined />,
+    label: "New Chat",
   });
 
   const theme = useSelector((state: RootState) => state.app.theme);
@@ -77,6 +78,7 @@ const Home = () => {
               theme={theme === "dark" ? "dark" : "light"}
               mode="inline"
               defaultSelectedKeys={[selectedMenu.key]}
+              selectedKeys={[selectedMenu.key]}
               items={items}
               onSelect={(e) => {
                 const [selectedItem] = items.filter(
@@ -106,8 +108,9 @@ const Home = () => {
         {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
 
         <div style={{ width: "100%", height: "100%" }}>
-          {selectedMenu.key === "page1" && <Page1 chat={chat} />}
-          {selectedMenu.key === "page2" && <Page2 userInfo={userInfo}/>}
+        {selectedMenu.key === "page0" && <Page0 chat={chat} />}
+          {selectedMenu.key === "page1" && <Page1 chat={chat} setSelectedMenu={setSelectedMenu}/>}
+          {selectedMenu.key === "page2" && <Page2 userInfo={userInfo} setSelectedMenu={setSelectedMenu}/>}
           {selectedMenu.key === "page4" && <Settings userInfo={userInfo} />}
         </div>
 

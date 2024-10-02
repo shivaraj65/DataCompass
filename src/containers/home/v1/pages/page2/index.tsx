@@ -14,10 +14,11 @@ import {
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getChatMessages } from "@/redux/asyncApi/chat";
+import { getChatHistory, getChatMessages } from "@/redux/asyncApi/chat";
 import { userInfotypes } from "@/utils/types/appTypes";
 import FullscreenLoader from "@/components/ui/fullscreenLoader";
 import ContentLoader from "@/components/ui/contentLoader";
+import { onHistorySelect } from "@/redux/reducers/chatSlice";
 
 const MockData = [
   {
@@ -42,15 +43,16 @@ const MockData = [
 
 interface props {
   userInfo: any;
+  setSelectedMenu: any;
 }
 
-const Page2 = ({ userInfo }: props) => {
+const Page2 = ({ userInfo, setSelectedMenu }: props) => {
   const dispatch = useDispatch<AppDispatch>();
   const chat = useSelector((state: RootState) => state.chat);
 
   useEffect(() => {
     dispatch(
-      getChatMessages({
+      getChatHistory({
         email: userInfo?.email,
       })
     );
@@ -60,7 +62,26 @@ const Page2 = ({ userInfo }: props) => {
     if (chat.chatHistory.error) message.error(chat.chatHistory.error);
   }, [chat.chatHistory.error]);
 
-
+  const fetchChatMessages = (item:any) => {
+    if (item && item.id) {
+      dispatch(
+        onHistorySelect({
+          chatType: item.chatType,
+          // chatModel: "gpt-4o-mini",
+          // chatTemperature: "precise",
+          rag: null,
+          file: null,
+          threadId: item.id,
+        })
+      );
+      dispatch(getChatMessages({ threadId: item.id }));
+      setSelectedMenu({
+        key: "page0",
+        icon: <EditOutlined />,
+        label: "New Chat",
+      });
+    }
+  };
 
   const SettingsContent = (
     <div
@@ -92,7 +113,6 @@ const Page2 = ({ userInfo }: props) => {
     </div>
   );
 
-
   if (chat.chatHistory.loading) {
     return <ContentLoader />;
   }
@@ -114,7 +134,12 @@ const Page2 = ({ userInfo }: props) => {
                 style={{ padding: "8px" }}
               >
                 <Badge.Ribbon text={item.chatType} color="#415043">
-                  <div className={styles.historyCard}>
+                  <div
+                    className={styles.historyCard}
+                    onClick={() => {
+                      fetchChatMessages(item);
+                    }}
+                  >
                     <div className={styles.innerContainer}>
                       <div className={styles.imageContainer}>
                         <Image

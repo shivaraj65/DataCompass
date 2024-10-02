@@ -54,6 +54,7 @@ export interface chatItemType {
   metrics: object | null;
   loading: boolean;
   error: string | null;
+  threadId?:string | null;
 }
 
 export interface chatHistoryType{

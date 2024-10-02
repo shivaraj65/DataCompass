@@ -31,7 +31,11 @@ export interface chatSaveRequest {
   metrics: any;
 }
 
-export interface getChatMessagesRequest {
+export interface getChatMessagesRequest {  
+  threadId:string;
+}
+
+export interface getChatHistoryRequest {
   email: string;
 }
 
@@ -50,8 +54,8 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
           role: "assistant",
           content: "",
           metrics: {
-            model: "model",
-            temperature: "temperature",
+            model: state.chat.chatModel,
+            temperature: state.chat.chatTemperature,
           },
         })
       );
@@ -185,14 +189,32 @@ export const chatSave = createAsyncThunk<
   }
 });
 
+export const getChatHistory = createAsyncThunk<
+  ApiResponse,
+  getChatHistoryRequest,
+  { rejectValue: string }
+>("api/chatHistoryGet", async (getChatHistoryRequest, { rejectWithValue }) => {
+  try {
+    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
+      `/api/chatHistoryGet`,
+      getChatHistoryRequest
+    );
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<ApiError>;
+    return rejectWithValue(err.response?.data?.message || "An error occurred");
+  }
+});
+
+
 export const getChatMessages = createAsyncThunk<
   ApiResponse,
   getChatMessagesRequest,
   { rejectValue: string }
->("api/chatHistoryGet", async (getChatMessagesRequest, { rejectWithValue }) => {
+>("api/chatMessagesGet", async (getChatMessagesRequest, { rejectWithValue }) => {
   try {
     const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
-      `/api/chatHistoryGet`,
+      `/api/chatMessagesGet`,
       getChatMessagesRequest
     );
     return response.data;

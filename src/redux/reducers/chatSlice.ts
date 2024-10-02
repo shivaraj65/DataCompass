@@ -9,7 +9,12 @@ import {
   fileDataType,
 } from "@/utils/types/chatTypes";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { chatSave, getChatMessages, simpleChat } from "../asyncApi/chat";
+import {
+  chatSave,
+  getChatHistory,
+  getChatMessages,
+  simpleChat,
+} from "../asyncApi/chat";
 
 const DummyChat: chatItemType[] = [
   {
@@ -153,7 +158,7 @@ const chatSlice = createSlice({
       state.inputValue = "";
       state.chatType = "simple";
       state.chatModel = {
-        value: "gpt_4_vision",
+        value: "gpt-4o-mini",
         isAvailable: true,
       };
       state.chatTemperature = "precise";
@@ -194,6 +199,18 @@ const chatSlice = createSlice({
           ...action.payload,
         };
     },
+    onHistorySelect(state, action) {
+      state.inputValue = "";
+      state.chatType = action.payload.chatType;
+      // state.chatModel = { value: action.payload.chatModel, isAvailable: true };
+      // state.chatTemperature = action.payload.chatTemperature;
+      state.rag = {
+        value: action.payload.rag,
+        isAvailable: true,
+      };
+      state.file = action.payload.file;
+      state.chatId = action.payload.threadId;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -227,6 +244,8 @@ const chatSlice = createSlice({
           chatArr[chatArr.length - 1].error = null;
           chatArr[chatArr.length - 1].loading = false;
           // chatArr[chatArr.length - 1].metrics = action.payload.metrics;
+
+          //101 save the thread id, message id to the respective chats.
         }
       })
       .addCase(chatSave.rejected, (state, action: PayloadAction<any>) => {
@@ -235,23 +254,58 @@ const chatSlice = createSlice({
           chatArr[chatArr.length - 1].error =
             action.payload.error || "An error occurred";
       })
-      .addCase(getChatMessages.pending, (state) => {
+      .addCase(getChatHistory.pending, (state) => {
         state.chatHistory.loading = true;
         state.chatHistory.error = null;
       })
       .addCase(
-        getChatMessages.fulfilled,
+        getChatHistory.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.chatHistory.history = action.payload.data;
           state.chatHistory.loading = false;
           state.chatHistory.error = null;
         }
       )
+      .addCase(getChatHistory.rejected, (state, action: PayloadAction<any>) => {
+        state.chatHistory.loading = false;
+        state.chatHistory.error = action.payload.error || "An error occurred";
+      })
+      .addCase(getChatMessages.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        getChatMessages.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          const incomingPayload = action.payload.data;
+          let serialisedPayload: chatItemType[] = [];
+          incomingPayload.map((item: any) => {
+            serialisedPayload.push({
+              id: item.id ? item.id : null,
+              role: item.role ? item.role : null,
+              content: item.context ? item.context : null,
+              metrics: item.metrics ? item.metrics : null,
+              loading: false,
+              error: null,
+              threadId: item.threadId,
+            });
+          });
+          state.currentChat = serialisedPayload;
+          if (incomingPayload.length > 0) {
+            state.chatModel = {
+              value: incomingPayload[incomingPayload.length - 1].metrics.model.value,
+              isAvailable: true,
+            };
+            state.chatTemperature =
+              incomingPayload[incomingPayload.length - 1].metrics.temperature;
+          }
+        }
+      )
       .addCase(
         getChatMessages.rejected,
         (state, action: PayloadAction<any>) => {
-          state.chatHistory.loading = false;
-          state.chatHistory.error = action.payload.error || "An error occurred";
+          state.loading = false;
+          state.error = action.payload.error || "An error occurred";
         }
       );
   },
@@ -267,5 +321,6 @@ export const {
   addNewMessage,
   onStreaming,
   onMetricsCapture,
+  onHistorySelect,
 } = chatSlice.actions;
 export default chatSlice.reducer;

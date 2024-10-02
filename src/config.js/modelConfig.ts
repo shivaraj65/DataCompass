@@ -9,7 +9,7 @@ const modelConfig = {
       multimodal: false,
       simple: true,
       rag: true,
-      dataWizard: true,
+      dataWizard: false,
     }
   };
   
