@@ -22,7 +22,7 @@ export interface chatItemType {
   content:
     | string
     | [
-        //input structure for gpt-4-vision multimodal
+        //input structure for gpt multimodal
         {
           type: ContentType;
           text?: string;

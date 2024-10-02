@@ -83,7 +83,7 @@ const Page0 = ({ chat }: props) => {
     await dispatch(
       addNewMessage({
         role: "user",
-        content: chat.inputValue,
+        content: [{ type: "text", text: chat.inputValue }],
         metrics: {
           model: chat.chatModel,
           temperature: chat.chatTemperature,
@@ -102,12 +102,8 @@ const Page0 = ({ chat }: props) => {
           <div className={styles.chatHeader}>
             <div className={styles.tagContainer}>
               {chat.chatType && <Tag>{chat.chatType.toUpperCase()}</Tag>}
-              {chat.chatModel.value && (
-                <Tag>{chat.chatModel.value}</Tag>
-              )}
-              {chat.chatTemperature && (
-                <Tag>{chat.chatTemperature}</Tag>
-              )}
+              {chat.chatModel.value && <Tag>{chat.chatModel.value}</Tag>}
+              {chat.chatTemperature && <Tag>{chat.chatTemperature}</Tag>}
               {chat.rag.value && <Tag>{chat.rag.value.toUpperCase()}</Tag>}
             </div>
           </div>
@@ -133,7 +129,7 @@ const Page0 = ({ chat }: props) => {
         </div>
       ) : (
         <React.Fragment>
-          <ContentLoader/>
+          <ContentLoader />
         </React.Fragment>
       )}
     </div>

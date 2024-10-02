@@ -31,8 +31,8 @@ export interface chatSaveRequest {
   metrics: any;
 }
 
-export interface getChatMessagesRequest {  
-  threadId:string;
+export interface getChatMessagesRequest {
+  threadId: string;
 }
 
 export interface getChatHistoryRequest {
@@ -156,12 +156,21 @@ export const chatSave = createAsyncThunk<
   { rejectValue: string }
 >("api/chatSave", async (_, { rejectWithValue, getState }) => {
   const state = getState() as RootState;
+
+  let threadTitle: string = "";
+  const parsedContentObj =
+    state.chat.currentChat &&
+    state.chat.currentChat[state.chat.currentChat.length - 2].content;
+  if (parsedContentObj === "string") {
+    threadTitle = parsedContentObj;
+  } else if (Array.isArray(parsedContentObj) && parsedContentObj.length > 0) {
+    threadTitle = parsedContentObj[0].text ? parsedContentObj[0].text : "";
+  }
+
   const payload: chatSaveRequest = {
     threadID: state.chat.chatId ? state.chat.chatId : null,
     userId: state.app.userInfo && state.app.userInfo.email,
-    title:
-      state.chat.currentChat &&
-      state.chat.currentChat[state.chat.currentChat.length - 2].content,
+    title: threadTitle,
     chatType: state.chat.chatType,
     // databaseConnection: null,
     // ragType: state.chat.rag.value,
@@ -206,20 +215,25 @@ export const getChatHistory = createAsyncThunk<
   }
 });
 
-
 export const getChatMessages = createAsyncThunk<
   ApiResponse,
   getChatMessagesRequest,
   { rejectValue: string }
->("api/chatMessagesGet", async (getChatMessagesRequest, { rejectWithValue }) => {
-  try {
-    const response: AxiosResponse<ApiResponse> = await axios.post<ApiResponse>(
-      `/api/chatMessagesGet`,
-      getChatMessagesRequest
-    );
-    return response.data;
-  } catch (error) {
-    const err = error as AxiosError<ApiError>;
-    return rejectWithValue(err.response?.data?.message || "An error occurred");
+>(
+  "api/chatMessagesGet",
+  async (getChatMessagesRequest, { rejectWithValue }) => {
+    try {
+      const response: AxiosResponse<ApiResponse> =
+        await axios.post<ApiResponse>(
+          `/api/chatMessagesGet`,
+          getChatMessagesRequest
+        );
+      return response.data;
+    } catch (error) {
+      const err = error as AxiosError<ApiError>;
+      return rejectWithValue(
+        err.response?.data?.message || "An error occurred"
+      );
+    }
   }
-});
+);

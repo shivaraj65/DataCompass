@@ -88,7 +88,7 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
     await dispatch(
       addNewMessage({
         role: "user",
-        content: chat.inputValue,
+        content: [{ type: "text", text: chat.inputValue }],
         metrics: {
           model: chat.chatModel,
           temperature: chat.chatTemperature,

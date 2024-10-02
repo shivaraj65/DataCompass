@@ -246,7 +246,19 @@ const chatSlice = createSlice({
           // chatArr[chatArr.length - 1].metrics = action.payload.metrics;
 
           //101 save the thread id, message id to the respective chats.
+          state.chatId =
+            (action.payload.data?.thread && action.payload.data?.thread.id) ||
+            state.chatId;
+
+          chatArr[chatArr.length - 2].id =
+            action.payload.data?.chatMessages[1].id ||
+            chatArr[chatArr.length - 2].id;
+
+          chatArr[chatArr.length - 1].id =
+            action.payload.data?.chatMessages[0].id ||
+            chatArr[chatArr.length - 1].id;
         }
+        state.currentChat = chatArr;
       })
       .addCase(chatSave.rejected, (state, action: PayloadAction<any>) => {
         let chatArr = state.currentChat;
@@ -293,7 +305,8 @@ const chatSlice = createSlice({
           state.currentChat = serialisedPayload;
           if (incomingPayload.length > 0) {
             state.chatModel = {
-              value: incomingPayload[incomingPayload.length - 1].metrics.model.value,
+              value:
+                incomingPayload[incomingPayload.length - 1].metrics.model.value,
               isAvailable: true,
             };
             state.chatTemperature =

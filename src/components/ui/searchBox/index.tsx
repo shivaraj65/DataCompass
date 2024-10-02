@@ -1,4 +1,14 @@
-import { Button, Input, Radio, RadioChangeEvent, Select, Tooltip } from "antd";
+import {
+  Button,
+  Input,
+  message,
+  Radio,
+  RadioChangeEvent,
+  Select,
+  Tooltip,
+  Upload,
+  UploadProps,
+} from "antd";
 import {
   SendOutlined,
   PlusCircleOutlined,
@@ -11,7 +21,8 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
-import { useState } from "react";
+import React, { useState } from "react";
+import modelConfig from '@/config.js/modelConfig'
 
 const { TextArea } = Input;
 
@@ -56,7 +67,7 @@ const SearchBox = ({
   onResetSettings,
   onSubmit,
 }: props) => {
-  const [value3, setValue3] = useState("simple");
+  // const [value3, setValue3] = useState("simple");
 
   const options = [
     { label: "Simple", value: "simple" },
@@ -69,6 +80,19 @@ const SearchBox = ({
       event.preventDefault();
       onSubmit();
     }
+  };
+
+  const fileUploadProps: UploadProps = {
+    beforeUpload: (file: any) => {
+      const isPNG = file.type === modelConfig[chatModel.value as keyof typeof modelConfig]?.imageUpload;
+      if (!isPNG) {
+        message.error(`${file.name} is not a png file`);
+      }
+      return isPNG || Upload.LIST_IGNORE;
+    },
+    onChange: (info) => {
+      console.log(info.fileList);
+    },
   };
 
   return (
@@ -84,14 +108,28 @@ const SearchBox = ({
 
         {!isChatPage && (
           <div className={styles.topControlsContainer}>
-            <Radio.Group
-              className={styles.chatTypeSelection}
-              size="small"
-              options={options}
-              onChange={onChatTypeChange}
-              value={chatType}
-              optionType="button"
-            />
+            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <Radio.Group
+                className={styles.chatTypeSelection}
+                size="small"
+                options={options}
+                onChange={onChatTypeChange}
+                value={chatType}
+                optionType="button"
+              />
+              <Select
+                className={styles.modelSelection}
+                size="small"
+                value={chatModel.value}
+                status={chatModel.isAvailable ? "" : "error"}
+                onChange={onChangeChatModel}
+                options={[
+                  { value: "gpt-3.5-turbo", label: "GPT 3.5" },
+                  { value: "gpt-4o-mini", label: "GPT 4o mini" },
+                ]}
+              />
+            </div>
+
             <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
               {isSettingsOpen && (
                 <Button type="dashed" size={"small"} className={styles.prompt}>
@@ -112,19 +150,19 @@ const SearchBox = ({
         )}
 
         <div className={styles.flexContainer}>
-          <TextArea
+          <Input
             className={styles.inputField}
             placeholder=""
             value={inputValue}
             onChange={onChangeInputValue}
             onKeyDown={handleKeyDown}
             // variant="filled"
-            rows={2}
+            // rows={1}
           />
-          <Button type="text" size={"small"} className={styles.sendButton}>
+          {/* <Button type="text" size={"small"} className={styles.sendButton}>
             <AudioOutlined />
-            {/* <AudioMutedOutlined />  */}
-          </Button>
+             <AudioMutedOutlined />  
+          </Button>  */}
           <Button
             type="text"
             size={"small"}
@@ -138,17 +176,6 @@ const SearchBox = ({
         {!isChatPage && (
           <div className={styles.flexContainer2}>
             <div className={styles.wrapper}>
-              <Select
-                className={styles.modelSelection}
-                size="small"
-                value={chatModel.value}
-                status={chatModel.isAvailable ? "" : "error"}
-                onChange={onChangeChatModel}
-                options={[
-                  { value: "gpt-3.5-turbo", label: "GPT 3.5" },
-                  { value: "gpt-4o-mini", label: "GPT 4o mini" },
-                ]}
-              />
               {isSettingsOpen && (
                 <Select
                   className={styles.temperatureSelection}
@@ -162,8 +189,7 @@ const SearchBox = ({
                   ]}
                 />
               )}
-
-              {isSettingsOpen && (
+              {isSettingsOpen && chatType=== "rag" && modelConfig[chatModel.value as keyof typeof modelConfig]?.rag && (
                 <Select
                   className={styles.ragSelection}
                   size="small"
@@ -171,20 +197,22 @@ const SearchBox = ({
                   status={rag.isAvailable ? "" : "error"}
                   onChange={onChangeRag}
                   options={[
-                    { value: "in_memory", label: "Memory" },
+                    { value: "in_memory", label: "Session" },
                     { value: "pinecone", label: "Pinecone" },
                   ]}
                 />
               )}
-              {isSettingsOpen && (
-                <Button
-                  type="dashed"
-                  size={"small"}
-                  className={styles.fileAttach}
-                >
-                  <PlusCircleOutlined />
-                  Attach
-                </Button>
+              {isSettingsOpen && modelConfig[chatModel.value as keyof typeof modelConfig]?.multimodal && (
+                <Upload {...fileUploadProps}>
+                  <Button
+                    type="dashed"
+                    size={"small"}
+                    className={styles.fileAttach}
+                  >
+                    <PlusCircleOutlined />
+                    Attach
+                  </Button>
+                </Upload>
               )}
             </div>
             <Tooltip

@@ -57,7 +57,9 @@ const ChatBox = ({ currentChat = [] }: props) => {
                     <div className={styles.flexEnd}>
                       {item.content && typeof item.content === "string" && (
                         <React.Fragment>
-                          <p className={styles.question}>{item.content}</p>
+                          {typeof item.content === "string" && (
+                            <p className={styles.question}>{item.content}</p>
+                          )}
                           <div className={styles.iconsCont}>
                             <CopyOutlined
                               className={styles.icon}
@@ -65,6 +67,40 @@ const ChatBox = ({ currentChat = [] }: props) => {
                                 {
                                   typeof item.content === "string" &&
                                     CopyText(item.content);
+                                }
+                              }}
+                            />
+                          </div>
+                        </React.Fragment>
+                      )}
+                      {Array.isArray(item.content) && (
+                        <React.Fragment>
+                          {item.content.map((it) => {
+                            if (it.type === "text") {
+                              return (
+                                <p
+                                  key={JSON.stringify(it)}
+                                  className={styles.question}
+                                >
+                                  {it.text}
+                                </p>
+                              );
+                            }
+                          })}
+                          <div className={styles.iconsCont}>
+                            <CopyOutlined
+                              className={styles.icon}
+                              onClick={() => {
+                                {
+                                  Array.isArray(item.content) &&
+                                    item.content.map((it) => {
+                                      if (
+                                        it.type === "text" &&
+                                        typeof it.text === "string"
+                                      ) {
+                                        CopyText(it.text);
+                                      }
+                                    });
                                 }
                               }}
                             />
@@ -106,9 +142,11 @@ const ChatBox = ({ currentChat = [] }: props) => {
                                     </code>
                                   );
                                 },
-                               }}
+                              }}
                             >
-                             {item && typeof item.content === "string" ? item.content : null}
+                              {item && typeof item.content === "string"
+                                ? item.content
+                                : null}
                             </Markdown>
                           </p>
                           <div className={styles.iconsCont}>
