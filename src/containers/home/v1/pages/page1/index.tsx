@@ -28,7 +28,7 @@ import { AppDispatch } from "@/redux/store";
 
 interface props {
   chat: chatType;
-  setSelectedMenu:any;
+  setSelectedMenu: any;
 }
 
 const Page1 = ({ chat, setSelectedMenu }: props) => {
@@ -79,7 +79,7 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
     dispatch(setInputValue(""));
   };
 
-  const onSubmit = async () => {
+  const onSubmit = async (file: any[]) => {
     setSelectedMenu({
       key: "page0",
       icon: <EditOutlined />,
@@ -88,14 +88,24 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
     await dispatch(
       addNewMessage({
         role: "user",
-        content: [{ type: "text", text: chat.inputValue }],
+        content:
+          file.length > 0
+            ? [
+                { type: "text", text: chat.inputValue },
+                // { type: "image_url", image_url: { url: file[0] } },
+                ...file.map((f) => ({
+                  type: "image_url",
+                  image_url: { url: f },
+                })),
+              ]
+            : [{ type: "text", text: chat.inputValue }],
+
         metrics: {
           model: chat.chatModel,
           temperature: chat.chatTemperature,
         },
       })
     );
-
     dispatch(simpleChat());
     resetInputBox();
   };

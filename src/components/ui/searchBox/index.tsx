@@ -21,8 +21,8 @@ import {
   ReloadOutlined,
 } from "@ant-design/icons";
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
-import React, { useState } from "react";
-import modelConfig from '@/config.js/modelConfig'
+import React, { useEffect, useState } from "react";
+import modelConfig from "@/config.js/modelConfig";
 
 const { TextArea } = Input;
 
@@ -67,7 +67,7 @@ const SearchBox = ({
   onResetSettings,
   onSubmit,
 }: props) => {
-  // const [value3, setValue3] = useState("simple");
+  const [fileUpload, setFileUpload] = useState<any[]>([]);
 
   const options = [
     { label: "Simple", value: "simple" },
@@ -75,23 +75,67 @@ const SearchBox = ({
     { label: "Data Wizard", value: "data_wizard" },
   ];
 
-  const handleKeyDown = (event: any) => {
+  const handleKeyDown = async (event: any) => {
     if (event.key === "Enter") {
       event.preventDefault();
-      onSubmit();
+
+      let base64FileArr: any[] = [];
+
+      const readFileAsBase64 = (file: Blob) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = function (event: any) {
+            resolve(event.target.result);
+          };
+          reader.onerror = function (error) {
+            reject(error);
+          };
+          reader.readAsDataURL(file);
+        });
+      };
+
+      for (let i = 0; i < fileUpload.length; i++) {
+        try {
+          const base64String = await readFileAsBase64(
+            fileUpload[i].originFileObj
+          );
+          base64FileArr.push(base64String);
+        } catch (error) {
+          console.error("Error reading file:", error);
+        }
+      }
+
+      onSubmit(base64FileArr);
+      setFileUpload([]);
     }
   };
 
+  useEffect(() => {
+    if (!modelConfig[chatModel.value as keyof typeof modelConfig].multimodal) {
+      setFileUpload([]);
+    }
+  }, [chatModel]);
+
   const fileUploadProps: UploadProps = {
     beforeUpload: (file: any) => {
-      const isPNG = file.type === modelConfig[chatModel.value as keyof typeof modelConfig]?.imageUpload;
-      if (!isPNG) {
-        message.error(`${file.name} is not a png file`);
+      // console.log(
+      //   modelConfig[chatModel.value as keyof typeof modelConfig].imageUpload
+      // );
+      // console.log(file.type);
+      const imageModelconfig: any[] | null =
+        modelConfig[chatModel.value as keyof typeof modelConfig].imageUpload;
+      const findTypeInConfig = imageModelconfig
+        ? imageModelconfig.includes(file.type)
+        : false;
+      if (!findTypeInConfig) {
+        message.error(`${file.name} is not a supported file format`);
       }
-      return isPNG || Upload.LIST_IGNORE;
+      return findTypeInConfig || Upload.LIST_IGNORE;
     },
     onChange: (info) => {
       console.log(info.fileList);
+      //101 save the file to a state and set the
+      setFileUpload(info.fileList);
     },
   };
 
@@ -149,6 +193,22 @@ const SearchBox = ({
           </div>
         )}
 
+        {isChatPage &&
+          modelConfig[chatModel.value as keyof typeof modelConfig]
+            ?.multimodal && (
+            <div className={styles.topControlsContainer} style={{display:"flex", flexDirection:"row-reverse"}}>
+              <Upload {...fileUploadProps} fileList={fileUpload}>
+                <Button
+                  type="dashed"
+                  size={"small"}
+                  className={styles.fileAttach}
+                >
+                  <PlusCircleOutlined />
+                </Button>
+              </Upload>
+            </div>
+          )}
+
         <div className={styles.flexContainer}>
           <Input
             className={styles.inputField}
@@ -167,7 +227,36 @@ const SearchBox = ({
             type="text"
             size={"small"}
             className={styles.sendButton}
-            onClick={onSubmit}
+            onClick={async () => {
+              let base64FileArr: any[] = [];
+
+              const readFileAsBase64 = (file: Blob) => {
+                return new Promise((resolve, reject) => {
+                  const reader = new FileReader();
+                  reader.onload = function (event: any) {
+                    resolve(event.target.result);
+                  };
+                  reader.onerror = function (error) {
+                    reject(error);
+                  };
+                  reader.readAsDataURL(file);
+                });
+              };
+
+              for (let i = 0; i < fileUpload.length; i++) {
+                try {
+                  const base64String = await readFileAsBase64(
+                    fileUpload[i].originFileObj
+                  );
+                  base64FileArr.push(base64String);
+                } catch (error) {
+                  console.error("Error reading file:", error);
+                }
+              }
+
+              onSubmit(base64FileArr);
+              setFileUpload([]);
+            }}
           >
             <SendOutlined />
           </Button>
@@ -189,31 +278,36 @@ const SearchBox = ({
                   ]}
                 />
               )}
-              {isSettingsOpen && chatType=== "rag" && modelConfig[chatModel.value as keyof typeof modelConfig]?.rag && (
-                <Select
-                  className={styles.ragSelection}
-                  size="small"
-                  value={rag.value}
-                  status={rag.isAvailable ? "" : "error"}
-                  onChange={onChangeRag}
-                  options={[
-                    { value: "in_memory", label: "Session" },
-                    { value: "pinecone", label: "Pinecone" },
-                  ]}
-                />
-              )}
-              {isSettingsOpen && modelConfig[chatModel.value as keyof typeof modelConfig]?.multimodal && (
-                <Upload {...fileUploadProps}>
-                  <Button
-                    type="dashed"
-                    size={"small"}
-                    className={styles.fileAttach}
-                  >
-                    <PlusCircleOutlined />
-                    Attach
-                  </Button>
-                </Upload>
-              )}
+              {isSettingsOpen &&
+                chatType === "rag" &&
+                modelConfig[chatModel.value as keyof typeof modelConfig]
+                  ?.rag && (
+                  <Select
+                    className={styles.ragSelection}
+                    size="small"
+                    value={rag.value}
+                    status={rag.isAvailable ? "" : "error"}
+                    onChange={onChangeRag}
+                    options={[
+                      { value: "in_memory", label: "Session" },
+                      { value: "pinecone", label: "Pinecone" },
+                    ]}
+                  />
+                )}
+              {isSettingsOpen &&
+                modelConfig[chatModel.value as keyof typeof modelConfig]
+                  ?.multimodal && (
+                  <Upload {...fileUploadProps} fileList={fileUpload}>
+                    <Button
+                      type="dashed"
+                      size={"small"}
+                      className={styles.fileAttach}
+                    >
+                      <PlusCircleOutlined />
+                      Attach
+                    </Button>
+                  </Upload>
+                )}
             </div>
             <Tooltip
               placement="bottomRight"
