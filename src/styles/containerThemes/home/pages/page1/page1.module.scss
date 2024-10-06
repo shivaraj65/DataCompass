@@ -233,11 +233,12 @@
               .answer {
                 background-color: appTheme.$mix-light-600;
                 color: appTheme.$mix-dark-300;
-                padding: 0.5rem 1.2rem;
+                padding: 0.7rem 1.2rem 0.7rem 2rem;
+                line-height: 1.8rem;
                 border-top-right-radius: 12px;
                 border-bottom-left-radius: 12px;
                 border-bottom-right-radius: 12px;
-                margin-top: 0.7rem;
+                margin-top: 0.7rem;               
                 .markdown_comp{
                   display: flex;
                   flex-direction: column;
@@ -461,7 +462,8 @@
               .answer {
                 background-color: appTheme.$mix-dark-100;
                 color: appTheme.$light-100;
-                padding: 0.5rem 1.2rem;
+                padding: 0.7rem 1.2rem 0.7rem 2rem;
+                line-height: 1.8rem;
                 border-top-right-radius: 12px;
                 border-bottom-left-radius: 12px;
                 border-bottom-right-radius: 12px;

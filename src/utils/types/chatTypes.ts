@@ -26,7 +26,9 @@ export interface chatItemType {
         {
           type: ContentType;
           text?: string;
-          image_url?: string;
+          image_url?: {
+            url:string;
+          } | string;
           //for table
           headers?: any[];
           rows?: any[];

@@ -79,7 +79,7 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
     dispatch(setInputValue(""));
   };
 
-  const onSubmit = async (file: any[]) => {
+  const onSubmit = async (file: any) => {
     setSelectedMenu({
       key: "page0",
       icon: <EditOutlined />,
@@ -89,17 +89,31 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
       addNewMessage({
         role: "user",
         content:
-          file.length > 0
+          file && file.dataArr.length > 0 && file.type === "image"
             ? [
                 { type: "text", text: chat.inputValue },
-                // { type: "image_url", image_url: { url: file[0] } },
-                ...file.map((f) => ({
+                ...file.dataArr.map((f: any) => ({
                   type: "image_url",
                   image_url: { url: f },
                 })),
               ]
+            : file && file.dataArr.length > 0 && file.type === "file"
+            ? [
+                { type: "text", text: chat.inputValue },
+                ...file.dataArr.map((f: any) => ({
+                  type: "text",
+                  text: `
+                      Please analyze the following extracted content from a PDF document. 
+                      Your task is to provide insights, summaries, or answers based on the information presented. 
+                      Focus on key themes, important details, and any conclusions that can be drawn from the text. 
+                      Avoid including any external knowledge or opinions that are not based on the provided content.#
+                      \n\n
+                      Here is the extracted content:\n
+                      ${f}
+                    `,
+                })),
+              ]
             : [{ type: "text", text: chat.inputValue }],
-
         metrics: {
           model: chat.chatModel,
           temperature: chat.chatTemperature,

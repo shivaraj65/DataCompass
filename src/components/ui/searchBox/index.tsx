@@ -23,6 +23,7 @@ import {
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
 import React, { useEffect, useState } from "react";
 import modelConfig from "@/config.js/modelConfig";
+import axios from "axios";
 
 const { TextArea } = Input;
 
@@ -68,6 +69,7 @@ const SearchBox = ({
   onSubmit,
 }: props) => {
   const [fileUpload, setFileUpload] = useState<any[]>([]);
+  const [extractedFileData, setExtractedFileData] = useState<any[]>([]);
 
   const options = [
     { label: "Simple", value: "simple" },
@@ -80,6 +82,7 @@ const SearchBox = ({
       event.preventDefault();
 
       let base64FileArr: any[] = [];
+      let extractedDataArr: any[] = [];
 
       const readFileAsBase64 = (file: Blob) => {
         return new Promise((resolve, reject) => {
@@ -100,12 +103,36 @@ const SearchBox = ({
             fileUpload[i].originFileObj
           );
           base64FileArr.push(base64String);
+          //call the api and get extracted data for pdf files only
+          const payload = {
+            data: base64String,
+          };
+          if (fileUpload[i].type === "application/pdf") {
+            console.log("b64", payload);
+            const res = await axios.post("/api/pdfTextExtractor", payload);
+            if (!res.data.error) {
+              extractedDataArr.push(res.data.data);
+            }
+          }
         } catch (error) {
           console.error("Error reading file:", error);
         }
       }
 
-      onSubmit(base64FileArr);
+      if (
+        fileUpload &&
+        fileUpload.length > 0 &&
+        fileUpload[0].type === "application/pdf"
+      ) {
+        setExtractedFileData(extractedDataArr);
+        //onSibmit change for files
+        onSubmit({ dataArr: extractedDataArr, type: "file" });
+      } else if (fileUpload && fileUpload.length > 0) {
+        onSubmit({ dataArr: base64FileArr, type: "image" });
+      } else {
+        onSubmit(null);
+      }
+
       setFileUpload([]);
     }
   };
@@ -118,23 +145,34 @@ const SearchBox = ({
 
   const fileUploadProps: UploadProps = {
     beforeUpload: (file: any) => {
-      // console.log(
-      //   modelConfig[chatModel.value as keyof typeof modelConfig].imageUpload
-      // );
-      // console.log(file.type);
-      const imageModelconfig: any[] | null =
-        modelConfig[chatModel.value as keyof typeof modelConfig].imageUpload;
-      const findTypeInConfig = imageModelconfig
-        ? imageModelconfig.includes(file.type)
-        : false;
-      if (!findTypeInConfig) {
-        message.error(`${file.name} is not a supported file format`);
+      if (chatType === "rag") {
+        const fileModelConfig: any[] | null =
+          modelConfig[chatModel.value as keyof typeof modelConfig].fileUpload;
+        const findTypeInConfig = fileModelConfig
+          ? fileModelConfig.includes(file.type)
+          : false;
+        if (!findTypeInConfig) {
+          message.error(
+            `${file.name} is not a supported file format. upload PDF only`
+          );
+        }
+        return findTypeInConfig || Upload.LIST_IGNORE;
+      } else {
+        const imageModelconfig: any[] | null =
+          modelConfig[chatModel.value as keyof typeof modelConfig].imageUpload;
+        const findTypeInConfig = imageModelconfig
+          ? imageModelconfig.includes(file.type)
+          : false;
+        if (!findTypeInConfig) {
+          message.error(
+            `${file.name} is not a supported file format. upload only PNG / JPEG only`
+          );
+        }
+        return findTypeInConfig || Upload.LIST_IGNORE;
       }
-      return findTypeInConfig || Upload.LIST_IGNORE;
     },
     onChange: (info) => {
       console.log(info.fileList);
-      //101 save the file to a state and set the
       setFileUpload(info.fileList);
     },
   };
@@ -196,7 +234,10 @@ const SearchBox = ({
         {isChatPage &&
           modelConfig[chatModel.value as keyof typeof modelConfig]
             ?.multimodal && (
-            <div className={styles.topControlsContainer} style={{display:"flex", flexDirection:"row-reverse"}}>
+            <div
+              className={styles.topControlsContainer}
+              style={{ display: "flex", flexDirection: "row-reverse" }}
+            >
               <Upload {...fileUploadProps} fileList={fileUpload}>
                 <Button
                   type="dashed"
@@ -254,7 +295,7 @@ const SearchBox = ({
                 }
               }
 
-              onSubmit(base64FileArr);
+              onSubmit({ dataArr: base64FileArr, type: "image" });
               setFileUpload([]);
             }}
           >

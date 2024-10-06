@@ -1,11 +1,12 @@
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
 import { chatItemType } from "@/utils/types/chatTypes";
-import { Avatar, message } from "antd";
-import React from "react";
+import { Avatar, message, Image, Modal } from "antd";
+import React, { useState } from "react";
 import {
   CopyOutlined,
   RedoOutlined,
   ExperimentOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -19,6 +20,21 @@ interface props {
 }
 
 const ChatBox = ({ currentChat = [] }: props) => {
+  const [modalContent, setModalContent] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const CopyText = (text: string) => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(
@@ -75,8 +91,8 @@ const ChatBox = ({ currentChat = [] }: props) => {
                       )}
                       {Array.isArray(item.content) && (
                         <React.Fragment>
-                          {item.content.map((it) => {
-                            if (it.type === "text") {
+                          {item.content.map((it: any, index: number) => {
+                            if (it.type === "text" && index === 0) {
                               return (
                                 <p
                                   key={JSON.stringify(it)}
@@ -84,6 +100,36 @@ const ChatBox = ({ currentChat = [] }: props) => {
                                 >
                                   {it.text}
                                 </p>
+                              );
+                            }
+                            if (it.type === "text" && index !== 0) {
+                              return (
+                                <p
+                                  key={JSON.stringify(it)}
+                                  className={styles.question}
+                                  style={{
+                                    cursor: "pointer",
+                                    boxShadow:
+                                      "rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px",
+                                  }}
+                                  onClick={() => {
+                                    setModalContent(it.text);
+                                    showModal();
+                                  }}
+                                >
+                                  <span> file_Attachment.pdf </span>{" "}
+                                  <FileTextOutlined />
+                                </p>
+                              );
+                            }
+                            if (it.type === "image_url") {
+                              return (
+                                <Image
+                                  key={JSON.stringify(it)}
+                                  style={{ marginTop: "8px" }}
+                                  width={200}
+                                  src={it.image_url && it.image_url.url}
+                                />
                               );
                             }
                           })}
@@ -174,6 +220,17 @@ const ChatBox = ({ currentChat = [] }: props) => {
             </div>
           );
         })}
+
+      <Modal
+        title="Extracted File Content"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+        footer={null}
+      >
+        {modalContent && <p>{modalContent}</p>}
+      </Modal>
     </div>
   );
 };

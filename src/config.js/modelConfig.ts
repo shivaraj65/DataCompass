@@ -4,7 +4,7 @@ const modelConfig = {
       simple: true,
       rag: true,
       dataWizard: true,
-      fileUpload:["application/pdf", "text/plain"],
+      fileUpload:["application/pdf"],
       imageUpload:["image/png", "image/jpeg", "image/jpg"]
     },
     "gpt-3.5-turbo": {
@@ -12,7 +12,7 @@ const modelConfig = {
       simple: true,
       rag: true,
       dataWizard: false,
-      fileUpload:["application/pdf", "text/plain"],
+      fileUpload:["application/pdf"],
       imageUpload:null
     }
   };
