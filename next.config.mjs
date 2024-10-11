@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
+  onDemandEntries: {
+    // Setting the maximum number of pages that can be kept in memory
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  devIndicators: {
+    autoPrerender: false,
+  },
   transpilePackages: [
     "@ant-design",
     "@rc-component",

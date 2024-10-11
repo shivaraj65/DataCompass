@@ -42,10 +42,14 @@ export interface getChatHistoryRequest {
 export interface ChatData {
   // chatHistory: any[];
 }
+export interface simpleChatRequest{
+  schemaString ?: string;
+}
 
-export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
+export const simpleChat = createAsyncThunk<any, simpleChatRequest, { rejectValue: string }>(
   "api/simpleChat",
-  async (_, { rejectWithValue, dispatch, getState }) => {
+  async (simpleChatRequest, { rejectWithValue, dispatch, getState }) => {
+    console.log("simple chat request",simpleChatRequest)
     try {
       const state = getState() as RootState;
 
@@ -64,7 +68,7 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
       const chatHistory =
         state.chat.currentChat &&
         state.chat.currentChat.map((item) => {
-          return [item.role, item.content];
+          return { role: item.role, content: item.content };
         });
       const question =
         state.chat.currentChat &&
@@ -72,11 +76,23 @@ export const simpleChat = createAsyncThunk<any, void, { rejectValue: string }>(
       const model = state.chat.chatModel.value;
       const temperature = state.chat.chatTemperature;
 
+      //additional parameters for the chat
+      const isRag = state.chat.chatType === "rag";
+      const ragType = state.chat.rag.value;
+      const ragTypeExternal = state.chat.rag.value !== "in_memory";
+      const pineconeKey = state.app.userInfo.rag.pinecone;
+
+      const isSQL = state.chat.chatType === "data_wizard";      
+
+      // const schemaString = `sales_table: ordernumber (integer), quantityordered (integer), priceeach (numeric), orderlinenumber (integer), sales (numeric), orderdate (timestamp with time zone), status (character varying), qtr_id (integer), month_id (integer), year_id (integer), productline (character varying), msrp (numeric), productcode (character varying), customername (character varying), phone (character varying), addressline1 (character varying), addressline2 (character varying), city (character varying), state (character varying), postalcode (character varying), country (character varying), territory (character varying), contactlastname (character varying), contactfirstname (character varying), dealsize (character varying).`;
+
       const payload = {
         chatHistory,
         question,
         model,
         temperature,
+        ...(isSQL && simpleChatRequest ? { schemaString:simpleChatRequest.schemaString } : {}),
+        ...(isRag && ragTypeExternal ? { pineconeKey } : {}),
       };
 
       const response = await fetch("/api/simpleChat", {

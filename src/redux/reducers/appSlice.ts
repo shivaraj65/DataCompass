@@ -122,6 +122,7 @@ const appSlice = createSlice({
         if (action.payload.data) {
           state.userInfo = action.payload.data;
         }
+        window.sessionStorage.setItem('userProfile', JSON.stringify(action.payload.data));
       })
       .addCase(updateUserApi.rejected, (state, action: PayloadAction<any>) => {
         state.updateUser.loading = false;

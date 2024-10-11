@@ -46,12 +46,14 @@ export default async function handler(
             password: true,
             llmApiKeys: true,
             databases: true,
+            rag: true,
           },
           createdAt: new Date().toISOString(),
           authOrigin: "website",
           llmApiKeys: {},
           databases: {},
           accountStatus: true,
+          rag: {},
         },
       });
       prisma.$disconnect();

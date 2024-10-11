@@ -105,7 +105,7 @@ export interface chatType {
   currentChat: chatItemType[] | null;
   chatId: string | null;
   chatHistory: chatHistoryType;
-
+  databaseSchema: any;
   //global level loading / error flags...
   loading: boolean;
   error: string | null;
@@ -131,6 +131,7 @@ const initialState: chatType = {
     loading: false,
     error: null,
   },
+  databaseSchema:null,
   loading: false,
   error: null,
 };
@@ -211,6 +212,9 @@ const chatSlice = createSlice({
       state.file = action.payload.file;
       state.chatId = action.payload.threadId;
     },
+    onDatabaseSchemaChnage(state, action){
+        state.databaseSchema = action.payload.schema;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -218,6 +222,7 @@ const chatSlice = createSlice({
         let chatArr = state.currentChat;
         if (chatArr && chatArr.length > 0)
           chatArr[chatArr.length - 1].loading = true;
+        state.currentChat = chatArr;
       })
       .addCase(simpleChat.fulfilled, (state, action: PayloadAction<any>) => {
         let chatArr = state.currentChat;
@@ -225,6 +230,7 @@ const chatSlice = createSlice({
           chatArr[chatArr.length - 1].error = null;
           chatArr[chatArr.length - 1].loading = false;
           // chatArr[chatArr.length - 1].metrics = action.payload.metrics;
+          state.currentChat = chatArr;
         }
       })
       .addCase(simpleChat.rejected, (state, action: PayloadAction<any>) => {
@@ -232,11 +238,13 @@ const chatSlice = createSlice({
         if (chatArr && chatArr.length > 0)
           chatArr[chatArr.length - 1].error =
             action.payload.error || "An error occurred";
+        state.currentChat = chatArr;
       })
       .addCase(chatSave.pending, (state) => {
         let chatArr = state.currentChat;
         if (chatArr && chatArr.length > 0)
           chatArr[chatArr.length - 1].loading = true;
+        state.currentChat = chatArr;
       })
       .addCase(chatSave.fulfilled, (state, action: PayloadAction<any>) => {
         let chatArr = state.currentChat;
@@ -265,6 +273,7 @@ const chatSlice = createSlice({
         if (chatArr && chatArr.length > 0)
           chatArr[chatArr.length - 1].error =
             action.payload.error || "An error occurred";
+        state.currentChat = chatArr;
       })
       .addCase(getChatHistory.pending, (state) => {
         state.chatHistory.loading = true;
@@ -335,5 +344,6 @@ export const {
   onStreaming,
   onMetricsCapture,
   onHistorySelect,
+  onDatabaseSchemaChnage
 } = chatSlice.actions;
 export default chatSlice.reducer;

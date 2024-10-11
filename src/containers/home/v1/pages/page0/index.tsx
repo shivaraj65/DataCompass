@@ -84,7 +84,10 @@ const Page0 = ({ chat }: props) => {
       addNewMessage({
         role: "user",
         content:
-          file && file.dataArr.length > 0 && file.type === "image"
+          file &&
+          file.dataArr &&
+          file.dataArr.length > 0 &&
+          file.type === "image"
             ? [
                 { type: "text", text: chat.inputValue },
                 ...file.dataArr.map((f: any) => ({
@@ -92,7 +95,10 @@ const Page0 = ({ chat }: props) => {
                   image_url: { url: f },
                 })),
               ]
-            : file && file.dataArr.length > 0 && file.type === "file"
+            : file &&
+              file.dataArr &&
+              file.dataArr.length > 0 &&
+              file.type === "file"
             ? [
                 { type: "text", text: chat.inputValue },
                 ...file.dataArr.map((f: any) => ({
@@ -115,7 +121,13 @@ const Page0 = ({ chat }: props) => {
         },
       })
     );
-    dispatch(simpleChat());
+    console.log("schema string in page 0 ",file);
+    if (file.schemaString) {
+      dispatch(simpleChat({ schemaString: file.schemaString }));
+    } else {
+      dispatch(simpleChat({}));
+    }
+    // dispatch(simpleChat({}));
     resetInputBox();
   };
 

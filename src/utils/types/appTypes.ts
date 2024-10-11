@@ -17,11 +17,13 @@ export interface userInfotypes {
     password: boolean;
     llmApiKeys: boolean;
     databases: boolean;
+    rag:boolean;
   };
   createdAt: string;
   llmApiKeys?: any;
   databases?: any;
   accountStatus: boolean;
+  rag:any;
 }
 
 export interface signupTypes {

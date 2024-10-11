@@ -23,7 +23,10 @@ import {
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
 import React, { useEffect, useState } from "react";
 import modelConfig from "@/config.js/modelConfig";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { ApiResponse } from "@/redux/asyncApi/chat";
 
 const { TextArea } = Input;
 
@@ -68,8 +71,11 @@ const SearchBox = ({
   onResetSettings,
   onSubmit,
 }: props) => {
+  const userInfo = useSelector((state: RootState) => state.app.userInfo);
+
   const [fileUpload, setFileUpload] = useState<any[]>([]);
   const [extractedFileData, setExtractedFileData] = useState<any[]>([]);
+  const [stringifiedSchema, setStringifiedSchema] = useState("");
 
   const options = [
     { label: "Simple", value: "simple" },
@@ -129,7 +135,9 @@ const SearchBox = ({
         onSubmit({ dataArr: extractedDataArr, type: "file" });
       } else if (fileUpload && fileUpload.length > 0) {
         onSubmit({ dataArr: base64FileArr, type: "image" });
-      } else {
+      } else if(chatType === "data_wizard"){
+        onSubmit({schemaString:stringifiedSchema});
+      }else{
         onSubmit(null);
       }
 
@@ -142,6 +150,48 @@ const SearchBox = ({
       setFileUpload([]);
     }
   }, [chatModel]);
+
+  useEffect(() => {
+    if (chatType === "data_wizard") {
+      if (userInfo.databases.postgres) {
+        fetchSchema(userInfo.databases.postgres);
+      } else {
+        message.error(
+          `Database Connection String is missing. Goto settings -> integrations to update!`
+        );
+      }
+    }
+  }, [chatType]);
+
+  const fetchSchema = async (connectionString: string) => {
+    try {
+      const payload = {
+        connectionString: connectionString,
+      };
+      const response: AxiosResponse<ApiResponse> =
+        await axios.post<ApiResponse>(`/api/getPGSchema`, payload);
+      if (response.data.error) {
+        message.error(response.data.error);
+      } else if (response.data.data && response.data.status === "success") {
+        console.log(response.data.data);
+        const resp = parseDataToString(response.data.data);
+        setStringifiedSchema(resp);
+        // console.log(resp);   
+      }
+    } catch (err) {
+      message.error(`Database Connection Error`);
+    }
+  };
+
+  function parseDataToString(data: any): string {
+    const result: string[] = [];
+  
+    for (const [key, value] of Object.entries(data) as [string, any]) {
+      const columns = value.map((obj: any) => `${obj.column_name} (${obj.data_type})`).join(", ");
+      result.push(`${key}: ${columns}.`);
+    }
+    return result.join("\n"); 
+  }
 
   const fileUploadProps: UploadProps = {
     beforeUpload: (file: any) => {
@@ -328,7 +378,18 @@ const SearchBox = ({
                     size="small"
                     value={rag.value}
                     status={rag.isAvailable ? "" : "error"}
-                    onChange={onChangeRag}
+                    onChange={(e) => {
+                      if (
+                        userInfo.rag?.pinecone?.apikey &&
+                        userInfo.rag?.pinecone?.index
+                      ) {
+                        onChangeRag(e);
+                      } else {
+                        message.error(
+                          `Pinecone Keys are not updated in Settings/Integration`
+                        );
+                      }
+                    }}
                     options={[
                       { value: "in_memory", label: "Session" },
                       { value: "pinecone", label: "Pinecone" },

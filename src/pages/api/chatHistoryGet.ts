@@ -25,6 +25,7 @@ export default async function handler(
       orderBy: {
         createdAt: "desc",
       },
+      take: 50,
     });
 
     if (userHistory && Array.isArray(userHistory)) {

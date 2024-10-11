@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { homeConfig } from "@/config.js/compConfig";
 import config from "@/config.js/appConfig";
