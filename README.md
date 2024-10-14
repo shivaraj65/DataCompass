@@ -4,27 +4,27 @@
 
 <h2>Project Screenshots : 📷</h2>
 
-![landing_1](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/landing1.png?raw=true)
+![landing_1](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/landing1.png?raw=true)
 
-![landing_2](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/landing2.png?raw=true)
+![landing_2](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/landing2.png?raw=true)
 
-![login](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/login.png?raw=true)
+![login](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/login.png?raw=true)
 
-![signup](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/signup.png?raw=true)
+![signup](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/signup.png?raw=true)
 
-![home_1](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/home1.png?raw=true)
+![home_1](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/home1.png?raw=true)
 
-![home_2](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/home2.png?raw=true)
+![home_2](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/home2.png?raw=true)
 
-![workspace](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/workspace1.png?raw=true)
+![workspace](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/workspace1.png?raw=true)
 
-![settings_1](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/settings1.png?raw=true)
+![settings_1](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/settings1.png?raw=true)
 
-![settings_2](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/settings2.png?raw=true)
+![settings_2](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/settings2.png?raw=true)
 
-![settings_3](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/settings3.png?raw=true)
+![settings_3](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/settings3.png?raw=true)
 
-![settings_4](https://github.com/shivaraj65/epicweaver/blob/main/screenshots/settings4.png?raw=true)
+![settings_4](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/settings4.png?raw=true)
 
 
 Here're some of the project's best features:
