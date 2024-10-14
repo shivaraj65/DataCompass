@@ -26,6 +26,25 @@
 
 ![settings_4](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/settings4.png?raw=true)
 
+![simple_1](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/simple1.png?raw=true)
+
+![simple_2](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/simple2.png?raw=true)
+
+![simple_3](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/simple3.png?raw=true)
+
+![metrics](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/metrics.png?raw=true)
+
+![rag](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/rag.png?raw=true)
+
+
+![sql_1](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/sql1.png?raw=true)
+
+![sql_2](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/sql2.png?raw=true)
+
+![sql_3](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/sql3.png?raw=true)
+
+![sql_4](https://github.com/shivaraj65/DataCompass/blob/main/screenshots/sql4.png?raw=true)
+
 
 Here're some of the project's best features:
 
