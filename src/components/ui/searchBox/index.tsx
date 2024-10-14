@@ -206,7 +206,8 @@ const SearchBox = ({
             `${file.name} is not a supported file format. upload PDF only`
           );
         }
-        return findTypeInConfig || Upload.LIST_IGNORE;
+        // return findTypeInConfig || Upload.LIST_IGNORE;
+        return false;
       } else {
         const imageModelconfig: any[] | null =
           modelConfig[chatModel.value as keyof typeof modelConfig].imageUpload;
@@ -288,7 +289,7 @@ const SearchBox = ({
               className={styles.topControlsContainer}
               style={{ display: "flex", flexDirection: "row-reverse" }}
             >
-              <Upload {...fileUploadProps} fileList={fileUpload}>
+              <Upload {...fileUploadProps} fileList={fileUpload} action={'/api/noop'}>
                 <Button
                   type="dashed"
                   size={"small"}
@@ -399,7 +400,7 @@ const SearchBox = ({
               {isSettingsOpen &&
                 modelConfig[chatModel.value as keyof typeof modelConfig]
                   ?.multimodal && (
-                  <Upload {...fileUploadProps} fileList={fileUpload}>
+                  <Upload {...fileUploadProps} fileList={fileUpload} action={'/api/noop'}>
                     <Button
                       type="dashed"
                       size={"small"}
