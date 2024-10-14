@@ -1,5 +1,5 @@
 import styles from "@/styles/containerThemes/home/pages/page2/page2.module.scss";
-import { Badge, Button, Col, Popover, Row } from "antd";
+import { Badge, Button, Col, message, Popover, Row } from "antd";
 import Image from "next/image";
 
 import Simple from "@/assets/illustrations/simpleChat.png";
@@ -11,6 +11,14 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import { useEffect } from "react";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getChatHistory, getChatMessages } from "@/redux/asyncApi/chat";
+import { userInfotypes } from "@/utils/types/appTypes";
+import FullscreenLoader from "@/components/ui/fullscreenLoader";
+import ContentLoader from "@/components/ui/contentLoader";
+import { onHistorySelect } from "@/redux/reducers/chatSlice";
 
 const MockData = [
   {
@@ -33,7 +41,48 @@ const MockData = [
   },
 ];
 
-const Page2 = () => {
+interface props {
+  userInfo: any;
+  setSelectedMenu: any;
+}
+
+const Page2 = ({ userInfo, setSelectedMenu }: props) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const chat = useSelector((state: RootState) => state.chat);
+
+  useEffect(() => {
+    dispatch(
+      getChatHistory({
+        email: userInfo?.email,
+      })
+    );
+  }, []);
+
+  useEffect(() => {
+    if (chat.chatHistory.error) message.error(chat.chatHistory.error);
+  }, [chat.chatHistory.error]);
+
+  const fetchChatMessages = (item:any) => {
+    if (item && item.id) {
+      dispatch(
+        onHistorySelect({
+          chatType: item.chatType,
+          // chatModel: "gpt-4o-mini",
+          // chatTemperature: "precise",
+          rag: null,
+          file: null,
+          threadId: item.id,
+        })
+      );
+      dispatch(getChatMessages({ threadId: item.id }));
+      setSelectedMenu({
+        key: "page0",
+        icon: <EditOutlined />,
+        label: "New Chat",
+      });
+    }
+  };
+
   const SettingsContent = (
     <div
       style={{
@@ -64,12 +113,16 @@ const Page2 = () => {
     </div>
   );
 
+  if (chat.chatHistory.loading) {
+    return <ContentLoader />;
+  }
+
   return (
     <div className={styles.page2Container}>
       <h1 className={styles.title}>Workspace</h1>
       <Row>
-        {MockData &&
-          MockData.map((item, index) => {
+        {chat.chatHistory.history &&
+          chat.chatHistory.history.map((item, index) => {
             return (
               <Col
                 xs={24}
@@ -81,7 +134,12 @@ const Page2 = () => {
                 style={{ padding: "8px" }}
               >
                 <Badge.Ribbon text={item.chatType} color="#415043">
-                  <div className={styles.historyCard}>
+                  <div
+                    className={styles.historyCard}
+                    onClick={() => {
+                      fetchChatMessages(item);
+                    }}
+                  >
                     <div className={styles.innerContainer}>
                       <div className={styles.imageContainer}>
                         <Image
@@ -104,7 +162,7 @@ const Page2 = () => {
                         <div className={styles.badgeContainer}>
                           <div>
                             <span className={styles.description}>
-                              {item.modelName}
+                              {new Date(item.createdAt).toLocaleString()}
                             </span>
                           </div>
                           <div>

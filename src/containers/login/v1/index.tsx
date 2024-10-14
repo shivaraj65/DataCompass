@@ -49,19 +49,22 @@ const Login = () => {
   }, [login.error]);
 
   useEffect(() => {
-    if (login.message === "success") {
-      sessionStorage.setItem("userProfile", JSON.stringify(userInfo));
-      dispatch(resetLogin());
-      router.push("/home");
-    } else {
-      dispatch(resetLogin());
-      cleanUp();
-    }
+    (async()=>{
+      if (login.message === "success") {
+        await sessionStorage.setItem("userProfile", JSON.stringify(userInfo));
+        await dispatch(resetLogin());
+        router.push("/home");
+      } else {
+        dispatch(resetLogin());
+        cleanUp();
+      }
+    })()
+    
   }, [login.message]);
 
-  const onsubmit = () => {
+  const onsubmit = async() => {
     if (email.length > 0 && password.length > 0) {
-      dispatch(
+      await dispatch(
         loginApi({
           email: email,
           password: password,

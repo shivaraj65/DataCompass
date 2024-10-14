@@ -24,6 +24,7 @@ model User {
   llmApiKeys Json
   databases Json
   accountStatus Boolean
+  rag Json
 }
 
 model Thread {

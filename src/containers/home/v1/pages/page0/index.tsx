@@ -1,6 +1,6 @@
 import { Button, Input, Radio, RadioChangeEvent, Select, Tag } from "antd";
 import {
-  EditOutlined,
+  SendOutlined,
   PlusCircleOutlined,
   AudioMutedOutlined,
   AudioOutlined,
@@ -25,13 +25,13 @@ import { useDispatch } from "react-redux";
 import ChatBox from "@/components/ui/chatBox";
 import { simpleChat } from "@/redux/asyncApi/chat";
 import { AppDispatch } from "@/redux/store";
+import ContentLoader from "@/components/ui/contentLoader";
 
 interface props {
   chat: chatType;
-  setSelectedMenu: any;
 }
 
-const Page1 = ({ chat, setSelectedMenu }: props) => {
+const Page0 = ({ chat }: props) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -78,14 +78,8 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
   const resetInputBox = () => {
     dispatch(setInputValue(""));
   };
- 
 
   const onSubmit = async (file: any) => {
-    setSelectedMenu({
-      key: "page0",
-      icon: <EditOutlined />,
-      label: "New Chat",
-    });
     await dispatch(
       addNewMessage({
         role: "user",
@@ -128,7 +122,7 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
       })
     );
     console.log("schema string in page 0 ",file);
-    if (file && file.schemaString) {
+    if (file.schemaString) {
       dispatch(simpleChat({ schemaString: file.schemaString }));
     } else {
       dispatch(simpleChat({}));
@@ -139,28 +133,43 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
 
   return (
     <div className={styles.page1Container}>
-      <React.Fragment>
-        {/* initial page box */}
-        <SearchBox
-          isChatPage={false}
-          inputValue={chat.inputValue}
-          onChangeInputValue={onChangeInputValue}
-          chatType={chat.chatType}
-          onChatTypeChange={onChatTypeChange}
-          chatModel={chat.chatModel}
-          onChangeChatModel={onChangeChatModel}
-          isSettingsOpen={isSettingsOpen}
-          onChangeSettingsOpen={onChangeSettingsOpen}
-          chatTemperature={chat.chatTemperature}
-          onChangeChatTemperature={onChangeChatTemperature}
-          rag={chat.rag}
-          onChangeRag={onChangeRag}
-          onResetSettings={onResetSettings}
-          onSubmit={onSubmit}
-        />
-      </React.Fragment>
+      {chat.currentChat && chat.currentChat.length > 0 ? (
+        <div className={styles.chatPage}>
+          <div className={styles.chatHeader}>
+            <div className={styles.tagContainer}>
+              {chat.chatType && <Tag>{chat.chatType.toUpperCase()}</Tag>}
+              {chat.chatModel.value && <Tag>{chat.chatModel.value}</Tag>}
+              {chat.chatTemperature && <Tag>{chat.chatTemperature}</Tag>}
+              {chat.rag.value && <Tag>{chat.rag.value.toUpperCase()}</Tag>}
+            </div>
+          </div>
+          <ChatBox currentChat={chat.currentChat} />
+
+          <SearchBox
+            isChatPage={true}
+            inputValue={chat.inputValue}
+            onChangeInputValue={onChangeInputValue}
+            chatType={chat.chatType}
+            onChatTypeChange={onChatTypeChange}
+            chatModel={chat.chatModel}
+            onChangeChatModel={onChangeChatModel}
+            isSettingsOpen={isSettingsOpen}
+            onChangeSettingsOpen={onChangeSettingsOpen}
+            chatTemperature={chat.chatTemperature}
+            onChangeChatTemperature={onChangeChatTemperature}
+            rag={chat.rag}
+            onChangeRag={onChangeRag}
+            onResetSettings={onResetSettings}
+            onSubmit={onSubmit}
+          />
+        </div>
+      ) : (
+        <React.Fragment>
+          <ContentLoader />
+        </React.Fragment>
+      )}
     </div>
   );
 };
 
-export default Page1;
+export default Page0;

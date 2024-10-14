@@ -22,11 +22,13 @@ export interface chatItemType {
   content:
     | string
     | [
-        //input structure for gpt-4-vision multimodal
+        //input structure for gpt multimodal
         {
           type: ContentType;
           text?: string;
-          image_url?: string;
+          image_url?: {
+            url:string;
+          } | string;
           //for table
           headers?: any[];
           rows?: any[];
@@ -52,6 +54,13 @@ export interface chatItemType {
         }
       ];
   metrics: object | null;
+  loading: boolean;
+  error: string | null;
+  threadId?:string | null;
+}
+
+export interface chatHistoryType{
+  history: any[] | null;
   loading: boolean;
   error: string | null;
 }

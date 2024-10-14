@@ -15,7 +15,8 @@ import { loginApi, signupApi, updateUserApi } from "../asyncApi/users";
 
 interface app {
   appInfo: appInfotypes | null;
-  userInfo: userInfotypes | null;
+  // userInfo: userInfotypes | null;
+  userInfo:any;
   signup: signupTypes;
   login: loginTypes;
   updateUser: UpdateUserTypes;
@@ -121,6 +122,7 @@ const appSlice = createSlice({
         if (action.payload.data) {
           state.userInfo = action.payload.data;
         }
+        window.sessionStorage.setItem('userProfile', JSON.stringify(action.payload.data));
       })
       .addCase(updateUserApi.rejected, (state, action: PayloadAction<any>) => {
         state.updateUser.loading = false;
