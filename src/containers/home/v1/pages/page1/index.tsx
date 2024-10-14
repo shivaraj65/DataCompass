@@ -9,7 +9,7 @@ import {
   DownCircleOutlined,
 } from "@ant-design/icons";
 import styles from "@/styles/containerThemes/home/pages/page1/page1.module.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchBox from "@/components/ui/searchBox";
 import {
   addNewMessage,
@@ -79,6 +79,10 @@ const Page1 = ({ chat, setSelectedMenu }: props) => {
     dispatch(setInputValue(""));
   };
  
+  useEffect(() => {  
+    dispatch(resetNewChat());
+  }, [])
+  
 
   const onSubmit = async (file: any) => {
     setSelectedMenu({
