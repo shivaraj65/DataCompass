@@ -127,7 +127,7 @@ const Page0 = ({ chat }: props) => {
     } else {
       dispatch(simpleChat({}));
     }
-    dispatch(simpleChat({}));
+    // dispatch(simpleChat({}));
     resetInputBox();
   };
 
