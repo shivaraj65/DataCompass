@@ -122,12 +122,12 @@ const Page0 = ({ chat }: props) => {
       })
     );
     console.log("schema string in page 0 ",file);
-    if (file.schemaString) {
+    if (file && file.schemaString) {
       dispatch(simpleChat({ schemaString: file.schemaString }));
     } else {
       dispatch(simpleChat({}));
     }
-    // dispatch(simpleChat({}));
+    dispatch(simpleChat({}));
     resetInputBox();
   };
 
