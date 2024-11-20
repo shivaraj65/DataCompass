@@ -1,0 +1,137 @@
+@use "../../../../../styles/theme//appTheme.scss";
+
+* {
+  [data-theme="light"] {
+    .page3 {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      // align-items: center;
+      .headerContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        .bannerContainer{
+          flex:1;
+        }
+      }
+
+      .chatContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
+
+        .messageContainer {
+          display: flex;
+          padding: 0.1rem 0;
+
+          .userIconContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.3rem;
+            font-weight: 900 !important;
+          }
+
+          .messageContainer {
+            display: flex;
+            flex: 1;
+
+            .answer {
+              background-color: appTheme.$mix-light-600;
+              color: appTheme.$mix-dark-300;
+              padding: 0.7rem 1.2rem 0.7rem 2rem;
+              line-height: 1.8rem;
+              border-top-right-radius: 12px;
+              border-bottom-left-radius: 12px;
+              border-bottom-right-radius: 12px;
+              margin-top: 0.7rem;
+
+              .markdown_comp {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+              }
+            }
+          }
+        }
+      }
+
+      .searchBoxContainer {
+        display: flex;
+      }
+    }
+  }
+
+  [data-theme="dark"] {
+    .page3 {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      // align-items: center;
+      .headerContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        .bannerContainer{
+          flex:1;
+        }
+      }
+
+      .chatContainer {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
+
+        .messageContainer {
+          display: flex;
+          padding: 0.1rem 0;
+
+          .userIconContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.3rem;
+            font-weight: 900 !important;
+          }
+
+          .messageContainer {
+            display: flex;
+            flex: 1;
+
+            .answer {
+              background-color: appTheme.$mix-dark-100;
+              color: appTheme.$light-100;
+              padding: 0.7rem 1.2rem 0.7rem 2rem;
+              line-height: 1.8rem;
+              border-top-right-radius: 12px;
+              border-bottom-left-radius: 12px;
+              border-bottom-right-radius: 12px;
+              margin-top: 0.7rem;
+
+              .markdown_comp {
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+              }
+            }
+          }
+        }
+      }
+
+      .searchBoxContainer {
+        display: flex;
+      }
+    }
+  }
+}

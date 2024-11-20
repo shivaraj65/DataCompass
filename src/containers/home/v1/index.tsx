@@ -4,6 +4,7 @@ import {
   CompassOutlined,
   EditOutlined,
   SettingOutlined,
+  RobotOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Layout, Menu } from "antd";
@@ -14,6 +15,7 @@ import Settings from "./pages/settings";
 import Page1 from "./pages/page1";
 import Page2 from "./pages/page2";
 import Page0 from "./pages/page0";
+import Page3 from "./pages/page3";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,11 +30,11 @@ const items = [
     icon: <CompassOutlined />,
     label: "Workspace",
   },
-  // {
-  //   key: "page3",
-  //   icon: <BookOutlined />,
-  //   label: "Page 3",
-  // },
+  {
+    key: "page3",
+    icon: <RobotOutlined />,
+    label: "Copilot",
+  },
   {
     key: "page4",
     icon: <SettingOutlined />,
@@ -108,10 +110,15 @@ const Home = () => {
         {/* <Header style={{ padding: 0, background: colorBgContainer }} /> */}
 
         <div style={{ width: "100%", height: "100%" }}>
-        {selectedMenu.key === "page0" && <Page0 chat={chat} />}
-          {selectedMenu.key === "page1" && <Page1 chat={chat} setSelectedMenu={setSelectedMenu}/>}
-          {selectedMenu.key === "page2" && <Page2 userInfo={userInfo} setSelectedMenu={setSelectedMenu}/>}
+          {selectedMenu.key === "page0" && <Page0 chat={chat} />}
+          {selectedMenu.key === "page1" && (
+            <Page1 chat={chat} setSelectedMenu={setSelectedMenu} />
+          )}
+          {selectedMenu.key === "page2" && (
+            <Page2 userInfo={userInfo} setSelectedMenu={setSelectedMenu} />
+          )}
           {selectedMenu.key === "page4" && <Settings userInfo={userInfo} />}
+          {selectedMenu.key === "page3" && <Page3 userInfo={userInfo} />}
         </div>
 
         {/* <Footer style={{ textAlign: "center" }}>
